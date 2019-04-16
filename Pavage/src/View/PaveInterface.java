@@ -382,6 +382,7 @@ public class PaveInterface {
 	        try {     
 	        	updatexy();
 				g2d.drawPolyline(x,y,cote+1);
+				//Am¨¦liorer_2. la possibilit¨¦ de mettre en ¨¦vidence les points qui ont ¨¦t¨¦ ajout¨¦s sur le pav¨¦ pour que ce soit plus simple de les manipuler. 
 				for(int i=0; i < x.length-1; i++ ) {
 					int jurer = pavem.getBaseindice().indexOf(i);
 					if(jurer == -1) {
