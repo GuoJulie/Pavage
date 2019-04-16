@@ -382,17 +382,20 @@ public class PaveInterface {
 	        try {     
 	        	updatexy();
 				g2d.drawPolyline(x,y,cote+1);
+				
+				//改善2：突出显示点(后续增加点和初始pave点)
 				//Améliorer_2. la possibilité de mettre en évidence les points qui ont été ajoutés sur le pavé pour que ce soit plus simple de les manipuler. 
 				for(int i=0; i < x.length-1; i++ ) {
 					int jurer = pavem.getBaseindice().indexOf(i);
 					if(jurer == -1) {
-						g2d.setColor(Color.RED);
+						g2d.setColor(Color.RED);	//后续增加点为红色 Le point d’augmentation suivant est en rouge
 						g2d.fillOval(x[i]-2, y[i]-2, 4, 4);
 					}else {
-						g2d.setColor(Color.BLUE);
+						g2d.setColor(Color.BLUE);	//初始pave点为蓝色 Le point de la pave initiale est en bleu
 						g2d.fillOval(x[i]-2, y[i]-2, 4, 4);
 					}
 				}
+				
 				repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
