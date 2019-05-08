@@ -82,7 +82,7 @@ public class PavageInterface {
 		jframe.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier la pave");
+		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier le pave");
 		rdbtnAffichierPave.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(AffichierPave == true)
@@ -92,12 +92,12 @@ public class PavageInterface {
 			}
 		});
 
-		rdbtnAffichierPave.setToolTipText("Affichier la pave");
+		rdbtnAffichierPave.setToolTipText("Afficher le pave");
 		rdbtnAffichierPave.setFont(new Font("Arial", Font.BOLD, 13));
 		rdbtnAffichierPave.setBounds(6, 52, 232, 23);
 		panel_2.add(rdbtnAffichierPave);
 		
-		JLabel lblCouleurDeFond = new JLabel("Couleur de fond de la pavé :");
+		JLabel lblCouleurDeFond = new JLabel("Couleur de fond du pave :");
 		lblCouleurDeFond.setFont(new Font("Arial", Font.BOLD, 13));
 		lblCouleurDeFond.setBounds(10, 127, 192, 15);
 		panel_2.add(lblCouleurDeFond);
@@ -118,7 +118,7 @@ public class PavageInterface {
 		btnCouleur_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();    //实例化颜色选择器
-				Color color = chooser.showDialog(panelCouleur_1,"Couleur de fond de la pavé",Color.lightGray );  //得到选择的颜色
+				Color color = chooser.showDialog(panelCouleur_1,"Couleur de fond du pave",Color.lightGray );  //得到选择的颜色
 	            if (color != null)  //如果选取，更新颜色；如果不选取，维持原样
 	            	c1 = color;  
 	            panelCouleur_1.setBackground(c1);  //改变面板的背景色
@@ -155,18 +155,18 @@ public class PavageInterface {
 					String filepath ="C:\\WINDOWS\\system32\\SnippingTool.exe";
 					File testFile = new File(filepath);
 					if(!testFile .exists()) {
-						System.out.println("\"snipping tool\" du système n'existe pas. Appeler la fonction de capture d'écran personnalisée.");
+						System.out.println("\"snipping tool\" du systeme n'existe pas. Appeler la fonction de capture d'ecran personnalisee.");
 //						testFile.createNewFile();
 						
-						//自定义截屏	Capture d'écran personnalisée
-						//全屏运行	Fonctionnement en plein écran
+						//自定义截屏	Capture d'ecran personnalisee
+						//全屏运行	Fonctionnement en plein ecran
 						RectD rd = new RectD();
 					    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					    gd.setFullScreenWindow(rd);
 						
 					}else {
 						   java.lang.Runtime.getRuntime().exec(filepath);
-						   System.out.println("\"snipping tool\" du système existe.");
+						   System.out.println("\"snipping tool\" du systeme existe.");
 					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -189,7 +189,7 @@ public class PavageInterface {
 				try {
 					myImage = new Robot().createScreenCapture(
 							new Rectangle(jframe.getX()+17, jframe.getY()+40, panel_1.getWidth(), panel_1.getHeight()));
-//					private String path = System.getProperty("user.dir"); //存放在projet当前目录下 Stocké dans le répertoire courant du projet
+//					private String path = System.getProperty("user.dir"); //存放在projet当前目录下 Stocké dans le repertoire courant du projet
 //					ImageIO.write(myImage, "jpg", new File(path + "/pavage.jpg"));
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddHHmmss");
 					String name = "Pavage_" + sdf.format(new Date());
@@ -219,15 +219,15 @@ public class PavageInterface {
 	static class Mypanel extends JPanel{
 		
 		//重写的绘图函数，绘制平铺pave
-		//Fonction de dessin réécrite, dessiner pavé de tuiles
+		//Fonction de dessin reecrite, dessiner pave de tuiles
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			//设置二维坐标系
-			//Définir le système de coordonnées 2D
+			//Definir le systeme de coordonnees 2D
 	        Graphics2D g2d = (Graphics2D)g;
 	        g2d.translate(0, getHeight());	//将坐标轴设置到panel的左下角
-	        								//Définir l'axe dans le coin inférieur gauche du panneau
-	        g2d.scale(1, -1); //翻转纵坐标轴	Retourner l'axe des ordonnées
+	        								//Definir l'axe dans le coin inferieur gauche du panneau
+	        g2d.scale(1, -1); //翻转纵坐标轴	Retourner l'axe des cordonnees
 	        
 	        
 			int cote = pavem.getPointList().size();
@@ -267,7 +267,7 @@ public class PavageInterface {
 			for(int k = 0; k < 4; k++) {
 				if(k == 0) {
 					c = c1;	//改变颜色	// 0. 偶数绘制<绿色>(0个起步) + 奇数行(1行起步)
-							// Changer la couleur // 0. Meme dessiner <vert> (0 début) + ligne impaire (début à 1 ligne)
+							// Changer la couleur // 0. Meme dessiner <vert> (0 debut) + ligne impaire (debut à 1 ligne)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i];
 						starty[i] = basestarty[i];
@@ -291,7 +291,7 @@ public class PavageInterface {
 				}
 				else if(k == 2){
 					c = c1;	//改变颜色	// 2. 奇数绘制<绿色>(1个起步) + 偶数行(0行起步)
-							//Changer de couleur // 2. Dessin impair <vert> (1 début) + ligne paire (début 0)
+							//Changer de couleur // 2. Dessin impair <vert> (1 debut) + ligne paire (debut 0)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i] - longueur;
 						starty[i] = basestarty[i] - longueur;
@@ -335,7 +335,7 @@ public class PavageInterface {
 					}
 					
 					// 如果绘制完毕，退出循环
-					//Si le dessin est terminé, quittez la boucle
+					//Si le dessin est termine, quittez la boucle
 					if(centrex > (getSize().width + pavem.getLongueur_pave()*2) && centrey > (getSize().height + pavem.getLongueur_pave()*2))
 						break;
 					
@@ -351,7 +351,7 @@ public class PavageInterface {
 						centrey += longueur*2;
 					}else {
 						// 如果在当前行，得到下一个图片的坐标位置
-						//Si dans la ligne en cours, obtient la position de coordonnées de la prochaine image
+						//Si dans la ligne en cours, obtient la position de coordonnees de la prochaine image
 						for(int i = 0; i < cote; i++) {
 							x[i] += longueur*2;
 						}
@@ -393,7 +393,7 @@ public class PavageInterface {
 		
 		@Override
 		public void paint(Graphics g) {
-			                          //缩放因子和偏移量	Facteur d'échelle et offset
+			                          //缩放因子和偏移量	Facteur d'echelle et offset
 			RescaleOp ro=new RescaleOp(0.8f, 0, null);
 			tempImage=ro.filter(image, null);
 			g.drawImage(tempImage, 0, 0,this);
@@ -411,9 +411,9 @@ public class PavageInterface {
 					orgy=e.getY();
 				}
 			});
-			//鼠标运动监听器	écouteur de mouvement de souris
+			//鼠标运动监听器	écompteur de mouvement de souris
 			this.addMouseMotionListener(new MouseMotionAdapter() {
-				//鼠标拖拽事件	Souris glisser événement
+				//鼠标拖拽事件	Souris glisser evenement
 				public void mouseDragged(MouseEvent e) {
 					endx=e.getX();
 					endy=e.getY();
@@ -434,7 +434,7 @@ public class PavageInterface {
 			
 			this.addKeyListener(new KeyAdapter() {
 				@Override
-				//按键释放	Bouton de libération
+				//按键释放	Bouton de liberation
 				public void keyReleased(KeyEvent e){
 					//按Esc键退出	Appuyez sur Esc pour quitter
 					if(e.getKeyCode()==27){

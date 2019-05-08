@@ -44,15 +44,15 @@ public class PaveInterface {
 	private JTextArea textAreaRemarque;
 	
 	static int radiochoix = 0;
-	static private boolean statepolygon;	//判断点是否在多边形内	Déterminer si le point est à l'intérieur du polygone
-	static private boolean statesommet;		//判断点是否在顶点上	Déterminer si le point est au sommet
-	static private boolean statecote;		//判断点是否在边上	Déterminer si le point est sur le coté
+	static private boolean statepolygon;	//判断点是否在多边形内	Determiner si le point est a l'interieur du polygone
+	static private boolean statesommet;		//判断点是否在顶点上	Determiner si le point est au sommet
+	static private boolean statecote;		//判断点是否在边上	Determiner si le point est sur le cote
 	static private int indicesommet = -1;
 	static private int indicecote = -1;
 	static private int recordindicecote = -1;
 	
 	static PaveM pavem = new PaveM();
-	static PaveCon pave = new PaveCon(pavem);	//获取pave的点集	Obtenez le jeu de points de pavé
+	static PaveCon pave = new PaveCon(pavem);	//获取pave的点集	Obtenez le jeu de points de pave
 	static PointsCon pc = new PointsCon();
 	
 	static int cote;
@@ -112,14 +112,14 @@ public class PaveInterface {
 		jframe.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lbl_title_changer = new JLabel("Déformation de la Pave");
+		JLabel lbl_title_changer = new JLabel("Deformation de la Pave");
 		lbl_title_changer.setForeground(Color.BLUE);
 		lbl_title_changer.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_title_changer.setFont(new Font("Arial", Font.BOLD, 15));
 		lbl_title_changer.setBounds(6, 10, 232, 23);
 		panel_2.add(lbl_title_changer);
 		
-		JRadioButton rdbtn0 = new JRadioButton("Aucune opération");
+		JRadioButton rdbtn0 = new JRadioButton("Aucune operation");
 		rdbtn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				radiochoix = 0;
@@ -130,35 +130,35 @@ public class PaveInterface {
 			}
 		});
 		rdbtn0.setSelected(true);
-		rdbtn0.setToolTipText("Aucune opération");
+		rdbtn0.setToolTipText("Aucune operation");
 		rdbtn0.setFont(new Font("Arial", Font.BOLD, 13));
 		rdbtn0.setBounds(6, 54, 232, 23);
 		panel_2.add(rdbtn0);
 		
-		JRadioButton rdbtn1 = new JRadioButton("Déplacer la pave");
+		JRadioButton rdbtn1 = new JRadioButton("Deplacer le pave");
 		rdbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				radiochoix = 1;
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("S'il vous plait déplacer votre souris sur la zone de la pavé et faire-la glisser.");
+				textAreaRemarque.setText("Veuillez deplacer votre souris sur la zone de la pave et faites la glisser.");
 			}
 		});
 		rdbtn1.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn1.setToolTipText("Déplacer la pave");
+		rdbtn1.setToolTipText("Deplacer la pave");
 		rdbtn1.setBounds(6, 79, 232, 23);
 		panel_2.add(rdbtn1);
 		
-		JRadioButton rdbtn2 = new JRadioButton("Déplacer le sommet");
+		JRadioButton rdbtn2 = new JRadioButton("Deplacer le sommet");
 		rdbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				radiochoix = 2;
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("S'il vous plait déplacer votre souris au sommet et faire-la glisser." + "\n" + "\n");
-				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas être déplacé!");
+				textAreaRemarque.setText("S'il vous plait deplacer votre souris au sommet et faire-la glisser." + "\n" + "\n");
+				textAreaRemarque.append("Attention: Le sommet initial de base du Pave ne peut pas etre deplace !");
 			}
 		});
 		rdbtn2.setToolTipText("Déplacer le sommet");
@@ -173,8 +173,8 @@ public class PaveInterface {
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("1. S'il vous plait déplacer votre souris sur un coté et faire un clic gauche pour sélectionner le coté que vous souhaitez modifier." + "\n"+ "\n");
-				textAreaRemarque.append("2. S'il vous plait déplacer votre souris sur une position du panneau et faire un clic droit pour créer un nouveau sommet.");
+				textAreaRemarque.setText("1. Veuillez deplacer votre souris sur un cote et faire un clic gauche pour selectionner le cote que vous souhaitez modifier." + "\n"+ "\n");
+				textAreaRemarque.append("2. Veuillez deplacer votre souris sur une position du panneau et faire un clic droit pour creer un nouveau sommet.");
 				
 			}
 		});
@@ -191,8 +191,8 @@ public class PaveInterface {
 				statesommet = false;
 				statecote = false;
 				
-				textAreaRemarque.setText("S'il vous plait déplacer votre souris au sommet et faire-la glisser." + "\n" + "\n");
-				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas être supprimé!");
+				textAreaRemarque.setText("Veuillez deplacer votre souris au sommet et faites la glisser." + "\n" + "\n");
+				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas etre supprime!");
 			}
 		});
 		rdbtn4.setToolTipText("Supprimer un seul sommet");
@@ -200,7 +200,7 @@ public class PaveInterface {
 		rdbtn4.setBounds(6, 154, 232, 23);
 		panel_2.add(rdbtn4);
 		
-		//设置单选	Mettre en place une seule sélection
+		//设置单选	Mettre en place une seule selection
 		ButtonGroup buttonGroup1 = new ButtonGroup();
 		buttonGroup1.add(rdbtn0);
 		buttonGroup1.add(rdbtn1);
@@ -209,7 +209,7 @@ public class PaveInterface {
 		buttonGroup1.add(rdbtn4);
 		
 		
-		JButton buttonTransfer = new JButton("Pavé --> Pavage");
+		JButton buttonTransfer = new JButton("Pave --> Pavage");
 		buttonTransfer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PavageInterface PaveTransfer = new PavageInterface( pavem);
@@ -228,7 +228,7 @@ public class PaveInterface {
 		
 		
 		//panel_1 pave修改区
-		//panel_1: la zone de modification de la pave
+		//panel_1: la zone de modification du pave
 		Mypanel panel_1 = new Mypanel();
 		panel_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -236,7 +236,7 @@ public class PaveInterface {
 				
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					// 左键点击	Clic gauche
-					//为创建新顶点获取边的值	Obtenir la valeur de l'arête pour créer un nouveau sommet
+					//为创建新顶点获取边的值	Obtenir la valeur de l'arete pour creer un nouveau sommet
 					if(statecote == true && radiochoix == 3) {
 						recordindicecote = indicecote + 1;
 						if(recordindicecote >= pavem.getPointList().size())
@@ -251,7 +251,7 @@ public class PaveInterface {
 				
 				}else if(e.getButton() == MouseEvent.BUTTON3) {
 					// 右键点击	Clic droit
-					//创建新顶点	Créer un nouveau sommet
+					//创建新顶点	Creer un nouveau sommet
 					if(statecote == false && statesommet == false && radiochoix == 3) {
 						
 						sourisx = e.getX() - (panel_1.getWidth() / 2);
@@ -339,9 +339,9 @@ public class PaveInterface {
 		int Sym_ver_x = (pavem.getPointList().get(pavem.getBaseindice().get(0)).getXpos()+pavem.getPointList().get(pavem.getBaseindice().get(3)).getXpos())/2;
 		pavem.setCentre(new PointsM(Sym_ver_x, Sym_hor_y));	//中心点更新	Mise à jour du point central
 		
-		pavem.getSym_hor().add(new PointsM(-2*pavem.getLongueur_pave() + Sym_ver_x, Sym_hor_y));	//橫对称轴更新	Mise à jour de l'axe de symétrie horizontal
+		pavem.getSym_hor().add(new PointsM(-2*pavem.getLongueur_pave() + Sym_ver_x, Sym_hor_y));	//橫对称轴更新	Mise a jour de l'axe de symetrie horizontal
 		pavem.getSym_hor().add(new PointsM(2*pavem.getLongueur_pave() + Sym_ver_x, Sym_hor_y));
-		pavem.getSym_ver().add(new PointsM(Sym_ver_x, -2*pavem.getLongueur_pave() + Sym_hor_y));	//纵对称轴更新	Mise à jour de l'axe de symétrie vertical
+		pavem.getSym_ver().add(new PointsM(Sym_ver_x, -2*pavem.getLongueur_pave() + Sym_hor_y));	//纵对称轴更新	Mise a jour de l'axe de symetrie vertical
 		pavem.getSym_ver().add(new PointsM(Sym_ver_x, 2*pavem.getLongueur_pave() + Sym_hor_y));
 		
 		for(int i = 0; i < 2; i++) {
@@ -369,29 +369,29 @@ public class PaveInterface {
 		
 		
 		//重写的绘图函数，绘制平铺pave
-		//Fonction de dessin réécrite, dessiner paver
+		//Fonction de dessin reecrite, dessiner pave
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			
 			//设置二维坐标系
-			//Définir le système de coordonnées 2D
+			//Definir le systeme de coordonnees 2D
 	        Graphics2D g2d = (Graphics2D)g;
-	        g2d.translate(getWidth() / 2, getHeight() / 2);	//将坐标轴设置到panel_1的中心位置		Définir l'axe au centre du panneau_1
-	        g2d.scale(1, -1); //翻转纵坐标轴		Retourner l'axe des ordonnées
+	        g2d.translate(getWidth() / 2, getHeight() / 2);	//将坐标轴设置到panel_1的中心位置		Definir l'axe au centre du panneau_1
+	        g2d.scale(1, -1); //翻转纵坐标轴		Retourner l'axe des ordonnees
 	        
 	        try {     
 	        	updatexy();
 				g2d.drawPolyline(x,y,cote+1);
 				
 				//改善2：突出显示点(后续增加点和初始pave点)
-				//Améliorer_2. la possibilité de mettre en évidence les points qui ont été ajoutés sur le pavé pour que ce soit plus simple de les manipuler. 
+				//Ameliorer_2. la possibilite de mettre en evidence les points qui ont ete ajoutes sur le pave pour que ce soit plus simple de les manipuler. 
 				for(int i=0; i < x.length-1; i++ ) {
 					int jurer = pavem.getBaseindice().indexOf(i);
 					if(jurer == -1) {
-						g2d.setColor(Color.RED);	//后续增加点为红色 Le point d’augmentation suivant est en rouge
+						g2d.setColor(Color.RED);	//后续增加点为红色 Le point d'augmentation suivant est en rouge
 						g2d.fillOval(x[i]-2, y[i]-2, 4, 4);
 					}else {
-						g2d.setColor(Color.BLUE);	//初始pave点为蓝色 Le point de la pave initiale est en bleu
+						g2d.setColor(Color.BLUE);	//初始pave点为蓝色 Le point du pave initial est en bleu
 						g2d.fillOval(x[i]-2, y[i]-2, 4, 4);
 					}
 				}
@@ -404,7 +404,7 @@ public class PaveInterface {
 	        
 	        
 	        //对称轴虚线设置
-	        //Réglage de la ligne pointillée de l'axe de symétrie
+	        //Reglage de la ligne pointillee de l'axe de symetrie
 	        BasicStroke stroke = new BasicStroke(0.5f, BasicStroke.CAP_BUTT ,BasicStroke.JOIN_MITER , 3.5f, new float[] { 10, 5 }, 0f);
 	        g2d.setStroke(stroke);
 	        g2d.setColor(Color.BLACK);
@@ -420,7 +420,7 @@ public class PaveInterface {
          * */
         @Override
         public void mouseDragged(MouseEvent e) {
-        	//拖动图形	Glisser la pave
+        	//拖动图形	Glisser le pave
         	if(radiochoix == 1 && statepolygon == true) {
         		int centrex = 0;
         		int centrey = 0;
@@ -466,7 +466,7 @@ public class PaveInterface {
 		
         /**
          * @note 鼠标未点击状态下移动
-         * La souris se déplace sans cliquer
+         * La souris se deplace sans cliquer
          * */
         @Override
 		public void mouseMoved(MouseEvent e) {
@@ -481,17 +481,17 @@ public class PaveInterface {
 			}
 
 			
-			//判断点是否在多边形内	Déterminer si le point est à l'intérieur du polygone
+			//判断点是否在多边形内	Determiner si le point est a l'interieur du polygone
         	statepolygon = pave.isInPolygon((int)(e.getX() - (getWidth() / 2)),(int)((getHeight() / 2) - e.getY()),x,y);
-        	//判断点是否在顶点上	Déterminer si le point est au sommet
+        	//判断点是否在顶点上	Determiner si le point est au sommet
         	statesommet = false;
-        	//判断点是否在边上	Déterminer si le point est sur le coté
+        	//判断点是否在边上	Determiner si le point est sur le cote
         	statecote = false;
         	
         	if(statepolygon == true) {
         		if(radiochoix == 1) {
         			//如果点在多边形内，则更改鼠标指针为"手型"
-        			//Si le point est à l'intérieur du polygone, remplacez le pointeur de la souris par "hand"
+        			//Si le point est a l'interieur du polygone, remplacez le pointeur de la souris par "hand"
         			cursorType = Cursor.HAND_CURSOR; 
         		}
     			statesommet = false;
@@ -501,7 +501,7 @@ public class PaveInterface {
     			
         	}else {
         		//如果点不在多边形内且点在多边形顶点上，则更改鼠标指针为"十字型"
-        		//Si le point ne se trouve pas à l'intérieur du polygone et s'il se trouve sur les sommets du polygone, modifiez le pointeur de la souris en "type de croix".
+        		//Si le point ne se trouve pas a l'interieur du polygone et s'il se trouve sur les sommets du polygone, modifiez le pointeur de la souris en "type de croix".
         		
         		for(int i = 0; i < x.length-1; i++) {        			
             		double distance = pc.lineSpace(new PointsM((int)(e.getX() - (getWidth() / 2)), (int)((getHeight() / 2) - e.getY())), new PointsM(x[i], y[i]));
@@ -519,7 +519,7 @@ public class PaveInterface {
         		}	
         	
 	        	//如果光标在边上，则更改鼠标指针为“移动型”
-        		//Si le curseur est sur le coté, remplacez le pointeur de la souris par "mobile"
+        		//Si le curseur est sur le cote, remplacez le pointeur de la souris par "mobile"
 	    		for(int i = 0; i < cote; i++) {
         			
 	        		double space = pc.pointToLine(new PointsM((int)(e.getX() - (getWidth() / 2)), (int)((getHeight() / 2) - e.getY())), new PointsM(x[i], y[i]), new PointsM(x[i+1], y[i+1]));

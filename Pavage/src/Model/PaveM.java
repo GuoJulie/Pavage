@@ -6,10 +6,10 @@ public class PaveM {
 
 	private ArrayList<PointsM> pointList;
 	private ArrayList<Integer> baseindice;	//记录pave的基本顶点位置 	Marque la position de base du sommet
-	private ArrayList<PointsM> sym_hor;	//橫对称轴	L'axe de symétrie horizontal	//可省略	 peut être omis
-	private ArrayList<PointsM> sym_ver;	//纵对称轴	L'axe de symétrie vertical 	  	//可省略	 peut être omis
+	private ArrayList<PointsM> sym_hor;	//橫对称轴	L'axe de symetrie horizontal	//可省略	 peut-etre omis
+	private ArrayList<PointsM> sym_ver;	//纵对称轴	L'axe de symetrie vertical 	  	//可省略	 peut-etre omis
 	private PointsM centre;	//中心点	Point central
-	private int longueur_pave;	//carre的边长	Longueur de coté de carre
+	private int longueur_pave;	//carre的边长	Longueur du cote du carre
 	
 
 	public PaveM() {
