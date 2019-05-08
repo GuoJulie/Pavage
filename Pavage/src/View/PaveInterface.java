@@ -208,11 +208,8 @@ public class PaveInterface {
 		buttonGroup1.add(rdbtn3);
 		buttonGroup1.add(rdbtn4);
 		
-		/** Code rajouté par moi
-		 * 
-		 *  
-		 *  **/
-		//Selection des axes de symetrie
+		
+		//Définir les boutons pour les axes de symetrie
 		
 		JRadioButton btnSym1 = new JRadioButton("Aucune symétrie");
 		btnSym1.addActionListener(new ActionListener() { //Penser à modifier nom de bouton
