@@ -47,7 +47,7 @@ public class PavageInterface {
 	private static Color c2 = Color.WHITE;
 	
 
-	//获取pave的点集	Obtenez le jeu de points de pavé
+	//获取pave的点集	Obtenez le jeu de points de pave
 	static PaveM pavem = new PaveM();
 	static PaveCon pave = new PaveCon(pavem);
 
@@ -135,7 +135,7 @@ public class PavageInterface {
 		btnCouleur_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();    //实例化颜色选择器
-	            Color color = chooser.showDialog(panelCouleur_2,"Couleur de fond de la pavé",Color.lightGray );  //得到选择的颜色
+	            Color color = chooser.showDialog(panelCouleur_2,"Couleur de fond du pave",Color.lightGray );  //得到选择的颜色
 	            if (color != null)  //如果选取，更新颜色；如果不选取，维持原样
 	            	c2 = color;  
 	            panelCouleur_2.setBackground(c2);  //改变面板的背景色
@@ -267,7 +267,7 @@ public class PavageInterface {
 			for(int k = 0; k < 4; k++) {
 				if(k == 0) {
 					c = c1;	//改变颜色	// 0. 偶数绘制<绿色>(0个起步) + 奇数行(1行起步)
-							// Changer la couleur // 0. Meme dessiner <vert> (0 debut) + ligne impaire (debut à 1 ligne)
+							// Changer la couleur // 0. Meme dessiner <vert> (0 debut) + ligne impaire (debut a 1 ligne)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i];
 						starty[i] = basestarty[i];
@@ -279,7 +279,7 @@ public class PavageInterface {
 				}
 				else if(k == 1){
 					c = c2;	//改变颜色	// 1. 奇数绘制<黄色>(1个起步) + 奇数行(1行起步)
-							// Change la couleur / / 1. Odd to draw <Jaune> (1 début) + lignes impaires (commencant à 1 ligne)
+							// Change la couleur / / 1. Odd to draw <Jaune> (1 début) + lignes impaires (commencant a 1 ligne)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i] - longueur;
 						starty[i] = basestarty[i];
@@ -411,7 +411,7 @@ public class PavageInterface {
 					orgy=e.getY();
 				}
 			});
-			//鼠标运动监听器	écompteur de mouvement de souris
+			//鼠标运动监听器	compteur de mouvement de souris
 			this.addMouseMotionListener(new MouseMotionAdapter() {
 				//鼠标拖拽事件	Souris glisser evenement
 				public void mouseDragged(MouseEvent e) {

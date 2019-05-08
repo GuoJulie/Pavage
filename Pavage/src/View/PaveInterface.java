@@ -112,7 +112,7 @@ public class PaveInterface {
 		jframe.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lbl_title_changer = new JLabel("Deformation de la Pave");
+		JLabel lbl_title_changer = new JLabel("Deformation du Pave");
 		lbl_title_changer.setForeground(Color.BLUE);
 		lbl_title_changer.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_title_changer.setFont(new Font("Arial", Font.BOLD, 15));
@@ -142,11 +142,11 @@ public class PaveInterface {
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("Veuillez deplacer votre souris sur la zone de la pave et faites la glisser.");
+				textAreaRemarque.setText("Veuillez deplacer votre souris sur la zone de la pave et la faire glisser.");
 			}
 		});
 		rdbtn1.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn1.setToolTipText("Deplacer la pave");
+		rdbtn1.setToolTipText("Deplacer le pave");
 		rdbtn1.setBounds(6, 79, 232, 23);
 		panel_2.add(rdbtn1);
 		
@@ -157,11 +157,11 @@ public class PaveInterface {
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("S'il vous plait deplacer votre souris au sommet et faire-la glisser." + "\n" + "\n");
+				textAreaRemarque.setText("Veuillez deplacer votre souris au sommet et la faire glisser." + "\n" + "\n");
 				textAreaRemarque.append("Attention: Le sommet initial de base du Pave ne peut pas etre deplace !");
 			}
 		});
-		rdbtn2.setToolTipText("D¨¦placer le sommet");
+		rdbtn2.setToolTipText("Deplacer le sommet");
 		rdbtn2.setFont(new Font("Arial", Font.BOLD, 13));
 		rdbtn2.setBounds(6, 104, 232, 23);
 		panel_2.add(rdbtn2);
@@ -208,6 +208,82 @@ public class PaveInterface {
 		buttonGroup1.add(rdbtn3);
 		buttonGroup1.add(rdbtn4);
 		
+		/** Code rajouté par moi
+		 * 
+		 *  
+		 *  **/
+		//Selection des axes de symetrie
+		
+		JRadioButton btnSym1 = new JRadioButton("Aucune symétrie");
+		btnSym1.addActionListener(new ActionListener() { //Penser à modifier nom de bouton
+			public void actionPerformed(ActionEvent e) {
+				radiochoix = 5;
+				statepolygon = false;
+				statesommet = false;
+				statecote = false;
+				textAreaRemarque.setText("Les déformations ne sont pas impactées par des symétries");
+			}
+		});
+		btnSym1.setFont(new Font("Arial", Font.BOLD, 13));
+		btnSym1.setToolTipText("Aucune symétrie");
+		btnSym1.setBounds(6, 189, 232, 23);
+		panel_2.add(btnSym1);
+		
+
+		JRadioButton btnSym2 = new JRadioButton("Symetrie horizontale");
+		btnSym2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				radiochoix = 6;
+				statepolygon = false;
+				statesommet = false;
+				statecote = false;
+				textAreaRemarque.setText("Les déformations seront effectuées d'après un axe de symétrie horizontale");
+			}
+		});
+		btnSym2.setFont(new Font("Arial", Font.BOLD, 13));
+		btnSym2.setToolTipText("Symetrie horizontale");
+		btnSym2.setBounds(6, 214, 232, 23);
+		panel_2.add(btnSym2);
+		
+
+		JRadioButton btnSym3 = new JRadioButton("Symetrie verticale");
+		btnSym3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				radiochoix = 7;
+				statepolygon = false;
+				statesommet = false;
+				statecote = false;
+				textAreaRemarque.setText("Les déformations seront effectuées d'après une symétrie verticale");
+			}
+		});
+		btnSym3.setFont(new Font("Arial", Font.BOLD, 13));
+		btnSym3.setToolTipText("Symetrie horizontale");
+		btnSym3.setBounds(6, 239, 232, 23);
+		panel_2.add(btnSym3);
+		
+		JRadioButton btnSym4 = new JRadioButton("Double symetrie");
+		btnSym4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				radiochoix = 8;
+				statepolygon = false;
+				statesommet = false;
+				statecote = false;
+				textAreaRemarque.setText("Les déformations seront effectuées d'après une symétrie horizontale et verticale");
+			}
+		});
+		btnSym4.setFont(new Font("Arial", Font.BOLD, 13));
+		btnSym4.setToolTipText("Double symétrie");
+		btnSym4.setBounds(6, 264, 232, 23);
+		panel_2.add(btnSym4);
+		
+		
+		//Création d'un groupe de boutons pour la selection de symétrie
+		ButtonGroup buttonGroup2 = new ButtonGroup();
+		buttonGroup2.add(btnSym1);
+		buttonGroup2.add(btnSym2);
+		buttonGroup2.add(btnSym3);
+		buttonGroup2.add(btnSym4);
+		
 		
 		JButton buttonTransfer = new JButton("Pave --> Pavage");
 		buttonTransfer.addActionListener(new ActionListener() {
@@ -218,7 +294,8 @@ public class PaveInterface {
 		buttonTransfer.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonTransfer.setForeground(Color.WHITE);
 		buttonTransfer.setBackground(new Color(153, 51, 51));
-		buttonTransfer.setBounds(6, 265, 232, 43);
+		//buttonTransfer.setBounds(6, 265, 232, 43);
+		buttonTransfer.setBounds(6, 365, 232, 43);
 		panel_2.add(buttonTransfer);
 		
 		JLabel lblRemarque = new JLabel("Remarque :");
@@ -307,7 +384,8 @@ public class PaveInterface {
 		btnEnregistrerPave.setForeground(Color.BLACK);
 		btnEnregistrerPave.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEnregistrerPave.setBackground(SystemColor.scrollbar);
-		btnEnregistrerPave.setBounds(6, 210, 232, 23);
+		//btnEnregistrerPave.setBounds(6, 210, 232, 23);
+		btnEnregistrerPave.setBounds(6, 320, 232, 23);
 		panel_2.add(btnEnregistrerPave);
 		
 		
