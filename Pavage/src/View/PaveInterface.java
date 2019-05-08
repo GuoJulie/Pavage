@@ -44,15 +44,15 @@ public class PaveInterface {
 	private JTextArea textAreaRemarque;
 	
 	static int radiochoix = 0;
-	static private boolean statepolygon;	//ÅÐ¶ÏµãÊÇ·ñÔÚ¶à±ßÐÎÄÚ	Determiner si le point est a l'interieur du polygone
-	static private boolean statesommet;		//ÅÐ¶ÏµãÊÇ·ñÔÚ¶¥µãÉÏ	Determiner si le point est au sommet
-	static private boolean statecote;		//ÅÐ¶ÏµãÊÇ·ñÔÚ±ßÉÏ	Determiner si le point est sur le cote
+	static private boolean statepolygon;	//ÅÐ¶ÏµãÊÇ·ñÔÚ¶à±ßÐÎÄÚ	D¨¦terminer si le point est ¨¤ l'int¨¦rieur du polygone
+	static private boolean statesommet;		//ÅÐ¶ÏµãÊÇ·ñÔÚ¶¥µãÉÏ	D¨¦terminer si le point est au sommet
+	static private boolean statecote;		//ÅÐ¶ÏµãÊÇ·ñÔÚ±ßÉÏ	D¨¦terminer si le point est sur le cot¨¦
 	static private int indicesommet = -1;
 	static private int indicecote = -1;
 	static private int recordindicecote = -1;
 	
 	static PaveM pavem = new PaveM();
-	static PaveCon pave = new PaveCon(pavem);	//»ñÈ¡paveµÄµã¼¯	Obtenez le jeu de points de pave
+	static PaveCon pave = new PaveCon(pavem);	//»ñÈ¡paveµÄµã¼¯	Obtenez le jeu de points de pav¨¦
 	static PointsCon pc = new PointsCon();
 	
 	static int cote;
@@ -112,56 +112,57 @@ public class PaveInterface {
 		jframe.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lbl_title_changer = new JLabel("Deformation du Pave");
+		JLabel lbl_title_changer = new JLabel("D¨¦formation de la Pave");
 		lbl_title_changer.setForeground(Color.BLUE);
 		lbl_title_changer.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_title_changer.setFont(new Font("Arial", Font.BOLD, 15));
 		lbl_title_changer.setBounds(6, 10, 232, 23);
 		panel_2.add(lbl_title_changer);
 		
-		JRadioButton rdbtn0 = new JRadioButton("Aucune operation");
+		JRadioButton rdbtn0 = new JRadioButton("Aucune op¨¦ration");
 		rdbtn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				radiochoix = 0;
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("");
+				textAreaRemarque.setText("Les points du pav¨¦ initial sont en bleu, \r\n" + 
+						"Les points qui ont ¨¦t¨¦ ajout¨¦s sur le pav¨¦ sont en rouge.");
 			}
 		});
 		rdbtn0.setSelected(true);
-		rdbtn0.setToolTipText("Aucune operation");
+		rdbtn0.setToolTipText("Aucune op¨¦ration");
 		rdbtn0.setFont(new Font("Arial", Font.BOLD, 13));
 		rdbtn0.setBounds(6, 54, 232, 23);
 		panel_2.add(rdbtn0);
 		
-		JRadioButton rdbtn1 = new JRadioButton("Deplacer le pave");
+		JRadioButton rdbtn1 = new JRadioButton("D¨¦placer la pave");
 		rdbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				radiochoix = 1;
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("Veuillez deplacer votre souris sur la zone de la pave et la faire glisser.");
+				textAreaRemarque.setText("S'il vous plait d¨¦placer votre souris sur la zone de la pav¨¦ et faire-la glisser.");
 			}
 		});
 		rdbtn1.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn1.setToolTipText("Deplacer le pave");
+		rdbtn1.setToolTipText("D¨¦placer la pave");
 		rdbtn1.setBounds(6, 79, 232, 23);
 		panel_2.add(rdbtn1);
 		
-		JRadioButton rdbtn2 = new JRadioButton("Deplacer le sommet");
+		JRadioButton rdbtn2 = new JRadioButton("D¨¦placer le sommet");
 		rdbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				radiochoix = 2;
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("Veuillez deplacer votre souris au sommet et la faire glisser." + "\n" + "\n");
-				textAreaRemarque.append("Attention: Le sommet initial de base du Pave ne peut pas etre deplace !");
+				textAreaRemarque.setText("S'il vous plait d¨¦placer votre souris au sommet et faire-la glisser." + "\n" + "\n");
+				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas ¨ºtre d¨¦plac¨¦!");
 			}
 		});
-		rdbtn2.setToolTipText("Deplacer le sommet");
+		rdbtn2.setToolTipText("D¨¦placer le sommet");
 		rdbtn2.setFont(new Font("Arial", Font.BOLD, 13));
 		rdbtn2.setBounds(6, 104, 232, 23);
 		panel_2.add(rdbtn2);
@@ -173,8 +174,8 @@ public class PaveInterface {
 				statepolygon = false;
 				statesommet = false;
 				statecote = false;
-				textAreaRemarque.setText("1. Veuillez deplacer votre souris sur un cote et faire un clic gauche pour selectionner le cote que vous souhaitez modifier." + "\n"+ "\n");
-				textAreaRemarque.append("2. Veuillez deplacer votre souris sur une position du panneau et faire un clic droit pour creer un nouveau sommet.");
+				textAreaRemarque.setText("1. S'il vous plait d¨¦placer votre souris sur un cot¨¦ et faire un clic gauche pour s¨¦lectionner le cot¨¦ que vous souhaitez modifier." + "\n"+ "\n");
+				textAreaRemarque.append("2. S'il vous plait d¨¦placer votre souris sur une position du panneau et faire un clic droit pour cr¨¦er un nouveau sommet.");
 				
 			}
 		});
@@ -191,8 +192,8 @@ public class PaveInterface {
 				statesommet = false;
 				statecote = false;
 				
-				textAreaRemarque.setText("Veuillez deplacer votre souris au sommet et faites la glisser." + "\n" + "\n");
-				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas etre supprime!");
+				textAreaRemarque.setText("S'il vous plait d¨¦placer votre souris au sommet et faire-la glisser." + "\n" + "\n");
+				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas ¨ºtre supprim¨¦!");
 			}
 		});
 		rdbtn4.setToolTipText("Supprimer un seul sommet");
@@ -200,7 +201,7 @@ public class PaveInterface {
 		rdbtn4.setBounds(6, 154, 232, 23);
 		panel_2.add(rdbtn4);
 		
-		//ÉèÖÃµ¥Ñ¡	Mettre en place une seule selection
+		//ÉèÖÃµ¥Ñ¡	Mettre en place une seule s¨¦lection
 		ButtonGroup buttonGroup1 = new ButtonGroup();
 		buttonGroup1.add(rdbtn0);
 		buttonGroup1.add(rdbtn1);
@@ -209,80 +210,7 @@ public class PaveInterface {
 		buttonGroup1.add(rdbtn4);
 		
 		
-		//Définir les boutons pour les axes de symetrie
-		
-		JRadioButton btnSym1 = new JRadioButton("Aucune symétrie");
-		btnSym1.addActionListener(new ActionListener() { //Penser à modifier nom de bouton
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 5;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations ne sont pas impactées par des symétries");
-			}
-		});
-		btnSym1.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym1.setToolTipText("Aucune symétrie");
-		btnSym1.setBounds(6, 189, 232, 23);
-		panel_2.add(btnSym1);
-		
-
-		JRadioButton btnSym2 = new JRadioButton("Symetrie horizontale");
-		btnSym2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 6;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations seront effectuées d'après un axe de symétrie horizontale");
-			}
-		});
-		btnSym2.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym2.setToolTipText("Symetrie horizontale");
-		btnSym2.setBounds(6, 214, 232, 23);
-		panel_2.add(btnSym2);
-		
-
-		JRadioButton btnSym3 = new JRadioButton("Symetrie verticale");
-		btnSym3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 7;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations seront effectuées d'après une symétrie verticale");
-			}
-		});
-		btnSym3.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym3.setToolTipText("Symetrie horizontale");
-		btnSym3.setBounds(6, 239, 232, 23);
-		panel_2.add(btnSym3);
-		
-		JRadioButton btnSym4 = new JRadioButton("Double symetrie");
-		btnSym4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 8;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations seront effectuées d'après une symétrie horizontale et verticale");
-			}
-		});
-		btnSym4.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym4.setToolTipText("Double symétrie");
-		btnSym4.setBounds(6, 264, 232, 23);
-		panel_2.add(btnSym4);
-		
-		
-		//Création d'un groupe de boutons pour la selection de symétrie
-		ButtonGroup buttonGroup2 = new ButtonGroup();
-		buttonGroup2.add(btnSym1);
-		buttonGroup2.add(btnSym2);
-		buttonGroup2.add(btnSym3);
-		buttonGroup2.add(btnSym4);
-		
-		
-		JButton buttonTransfer = new JButton("Pave --> Pavage");
+		JButton buttonTransfer = new JButton("Pav¨¦ --> Pavage");
 		buttonTransfer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PavageInterface PaveTransfer = new PavageInterface( pavem);
@@ -291,8 +219,7 @@ public class PaveInterface {
 		buttonTransfer.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonTransfer.setForeground(Color.WHITE);
 		buttonTransfer.setBackground(new Color(153, 51, 51));
-		//buttonTransfer.setBounds(6, 265, 232, 43);
-		buttonTransfer.setBounds(6, 365, 232, 43);
+		buttonTransfer.setBounds(6, 265, 232, 43);
 		panel_2.add(buttonTransfer);
 		
 		JLabel lblRemarque = new JLabel("Remarque :");
@@ -302,7 +229,7 @@ public class PaveInterface {
 		
 		
 		//panel_1 paveÐÞ¸ÄÇø
-		//panel_1: la zone de modification du pave
+		//panel_1: la zone de modification de la pave
 		Mypanel panel_1 = new Mypanel();
 		panel_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -310,7 +237,7 @@ public class PaveInterface {
 				
 				if(e.getButton() == MouseEvent.BUTTON1) {
 					// ×ó¼üµã»÷	Clic gauche
-					//Îª´´½¨ÐÂ¶¥µã»ñÈ¡±ßµÄÖµ	Obtenir la valeur de l'arete pour creer un nouveau sommet
+					//Îª´´½¨ÐÂ¶¥µã»ñÈ¡±ßµÄÖµ	Obtenir la valeur de l'ar¨ºte pour cr¨¦er un nouveau sommet
 					if(statecote == true && radiochoix == 3) {
 						recordindicecote = indicecote + 1;
 						if(recordindicecote >= pavem.getPointList().size())
@@ -325,7 +252,7 @@ public class PaveInterface {
 				
 				}else if(e.getButton() == MouseEvent.BUTTON3) {
 					// ÓÒ¼üµã»÷	Clic droit
-					//´´½¨ÐÂ¶¥µã	Creer un nouveau sommet
+					//´´½¨ÐÂ¶¥µã	Cr¨¦er un nouveau sommet
 					if(statecote == false && statesommet == false && radiochoix == 3) {
 						
 						sourisx = e.getX() - (panel_1.getWidth() / 2);
@@ -353,6 +280,8 @@ public class PaveInterface {
 		textAreaRemarque.setBackground(SystemColor.inactiveCaptionBorder);
 		textAreaRemarque.setBounds(6, 444, 228, 266);
 		textAreaRemarque.setLineWrap(true);
+		textAreaRemarque.setText("Les points du pav¨¦ initial sont en bleu, \r\n" + 
+				"Les points qui ont ¨¦t¨¦ ajout¨¦s sur le pav¨¦ sont en rouge.");
 		panel_2.add(textAreaRemarque);
 		
 		JButton btnEnregistrerPave = new JButton("Enregistrer Pave");
@@ -381,8 +310,7 @@ public class PaveInterface {
 		btnEnregistrerPave.setForeground(Color.BLACK);
 		btnEnregistrerPave.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEnregistrerPave.setBackground(SystemColor.scrollbar);
-		//btnEnregistrerPave.setBounds(6, 210, 232, 23);
-		btnEnregistrerPave.setBounds(6, 320, 232, 23);
+		btnEnregistrerPave.setBounds(6, 210, 232, 23);
 		panel_2.add(btnEnregistrerPave);
 		
 		
@@ -414,9 +342,9 @@ public class PaveInterface {
 		int Sym_ver_x = (pavem.getPointList().get(pavem.getBaseindice().get(0)).getXpos()+pavem.getPointList().get(pavem.getBaseindice().get(3)).getXpos())/2;
 		pavem.setCentre(new PointsM(Sym_ver_x, Sym_hor_y));	//ÖÐÐÄµã¸üÐÂ	Mise ¨¤ jour du point central
 		
-		pavem.getSym_hor().add(new PointsM(-2*pavem.getLongueur_pave() + Sym_ver_x, Sym_hor_y));	//™M¶Ô³ÆÖá¸üÐÂ	Mise a jour de l'axe de symetrie horizontal
+		pavem.getSym_hor().add(new PointsM(-2*pavem.getLongueur_pave() + Sym_ver_x, Sym_hor_y));	//™M¶Ô³ÆÖá¸üÐÂ	Mise ¨¤ jour de l'axe de sym¨¦trie horizontal
 		pavem.getSym_hor().add(new PointsM(2*pavem.getLongueur_pave() + Sym_ver_x, Sym_hor_y));
-		pavem.getSym_ver().add(new PointsM(Sym_ver_x, -2*pavem.getLongueur_pave() + Sym_hor_y));	//×Ý¶Ô³ÆÖá¸üÐÂ	Mise a jour de l'axe de symetrie vertical
+		pavem.getSym_ver().add(new PointsM(Sym_ver_x, -2*pavem.getLongueur_pave() + Sym_hor_y));	//×Ý¶Ô³ÆÖá¸üÐÂ	Mise ¨¤ jour de l'axe de sym¨¦trie vertical
 		pavem.getSym_ver().add(new PointsM(Sym_ver_x, 2*pavem.getLongueur_pave() + Sym_hor_y));
 		
 		for(int i = 0; i < 2; i++) {
@@ -444,29 +372,29 @@ public class PaveInterface {
 		
 		
 		//ÖØÐ´µÄ»æÍ¼º¯Êý£¬»æÖÆÆ½ÆÌpave
-		//Fonction de dessin reecrite, dessiner pave
+		//Fonction de dessin r¨¦¨¦crite, dessiner paver
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			
 			//ÉèÖÃ¶þÎ¬×ø±êÏµ
-			//Definir le systeme de coordonnees 2D
+			//D¨¦finir le syst¨¨me de coordonn¨¦es 2D
 	        Graphics2D g2d = (Graphics2D)g;
-	        g2d.translate(getWidth() / 2, getHeight() / 2);	//½«×ø±êÖáÉèÖÃµ½panel_1µÄÖÐÐÄÎ»ÖÃ		Definir l'axe au centre du panneau_1
-	        g2d.scale(1, -1); //·­×ª×Ý×ø±êÖá		Retourner l'axe des ordonnees
+	        g2d.translate(getWidth() / 2, getHeight() / 2);	//½«×ø±êÖáÉèÖÃµ½panel_1µÄÖÐÐÄÎ»ÖÃ		D¨¦finir l'axe au centre du panneau_1
+	        g2d.scale(1, -1); //·­×ª×Ý×ø±êÖá		Retourner l'axe des ordonn¨¦es
 	        
 	        try {     
 	        	updatexy();
 				g2d.drawPolyline(x,y,cote+1);
 				
 				//¸ÄÉÆ2£ºÍ»³öÏÔÊ¾µã(ºóÐøÔö¼ÓµãºÍ³õÊ¼paveµã)
-				//Ameliorer_2. la possibilite de mettre en evidence les points qui ont ete ajoutes sur le pave pour que ce soit plus simple de les manipuler. 
+				//Am¨¦liorer_2. la possibilit¨¦ de mettre en ¨¦vidence les points qui ont ¨¦t¨¦ ajout¨¦s sur le pav¨¦ pour que ce soit plus simple de les manipuler. 
 				for(int i=0; i < x.length-1; i++ ) {
 					int jurer = pavem.getBaseindice().indexOf(i);
 					if(jurer == -1) {
-						g2d.setColor(Color.RED);	//ºóÐøÔö¼ÓµãÎªºìÉ« Le point d'augmentation suivant est en rouge
+						g2d.setColor(Color.RED);	//ºóÐøÔö¼ÓµãÎªºìÉ« Le point d¡¯augmentation suivant est en rouge
 						g2d.fillOval(x[i]-2, y[i]-2, 4, 4);
 					}else {
-						g2d.setColor(Color.BLUE);	//³õÊ¼paveµãÎªÀ¶É« Le point du pave initial est en bleu
+						g2d.setColor(Color.BLUE);	//³õÊ¼paveµãÎªÀ¶É« Le point de la pave initiale est en bleu
 						g2d.fillOval(x[i]-2, y[i]-2, 4, 4);
 					}
 				}
@@ -479,7 +407,7 @@ public class PaveInterface {
 	        
 	        
 	        //¶Ô³ÆÖáÐéÏßÉèÖÃ
-	        //Reglage de la ligne pointillee de l'axe de symetrie
+	        //R¨¦glage de la ligne pointill¨¦e de l'axe de sym¨¦trie
 	        BasicStroke stroke = new BasicStroke(0.5f, BasicStroke.CAP_BUTT ,BasicStroke.JOIN_MITER , 3.5f, new float[] { 10, 5 }, 0f);
 	        g2d.setStroke(stroke);
 	        g2d.setColor(Color.BLACK);
@@ -495,7 +423,7 @@ public class PaveInterface {
          * */
         @Override
         public void mouseDragged(MouseEvent e) {
-        	//ÍÏ¶¯Í¼ÐÎ	Glisser le pave
+        	//ÍÏ¶¯Í¼ÐÎ	Glisser la pave
         	if(radiochoix == 1 && statepolygon == true) {
         		int centrex = 0;
         		int centrey = 0;
@@ -541,7 +469,7 @@ public class PaveInterface {
 		
         /**
          * @note Êó±êÎ´µã»÷×´Ì¬ÏÂÒÆ¶¯
-         * La souris se deplace sans cliquer
+         * La souris se d¨¦place sans cliquer
          * */
         @Override
 		public void mouseMoved(MouseEvent e) {
@@ -556,17 +484,17 @@ public class PaveInterface {
 			}
 
 			
-			//ÅÐ¶ÏµãÊÇ·ñÔÚ¶à±ßÐÎÄÚ	Determiner si le point est a l'interieur du polygone
+			//ÅÐ¶ÏµãÊÇ·ñÔÚ¶à±ßÐÎÄÚ	D¨¦terminer si le point est ¨¤ l'int¨¦rieur du polygone
         	statepolygon = pave.isInPolygon((int)(e.getX() - (getWidth() / 2)),(int)((getHeight() / 2) - e.getY()),x,y);
-        	//ÅÐ¶ÏµãÊÇ·ñÔÚ¶¥µãÉÏ	Determiner si le point est au sommet
+        	//ÅÐ¶ÏµãÊÇ·ñÔÚ¶¥µãÉÏ	D¨¦terminer si le point est au sommet
         	statesommet = false;
-        	//ÅÐ¶ÏµãÊÇ·ñÔÚ±ßÉÏ	Determiner si le point est sur le cote
+        	//ÅÐ¶ÏµãÊÇ·ñÔÚ±ßÉÏ	D¨¦terminer si le point est sur le cot¨¦
         	statecote = false;
         	
         	if(statepolygon == true) {
         		if(radiochoix == 1) {
         			//Èç¹ûµãÔÚ¶à±ßÐÎÄÚ£¬Ôò¸ü¸ÄÊó±êÖ¸ÕëÎª"ÊÖÐÍ"
-        			//Si le point est a l'interieur du polygone, remplacez le pointeur de la souris par "hand"
+        			//Si le point est ¨¤ l'int¨¦rieur du polygone, remplacez le pointeur de la souris par "hand"
         			cursorType = Cursor.HAND_CURSOR; 
         		}
     			statesommet = false;
@@ -576,7 +504,7 @@ public class PaveInterface {
     			
         	}else {
         		//Èç¹ûµã²»ÔÚ¶à±ßÐÎÄÚÇÒµãÔÚ¶à±ßÐÎ¶¥µãÉÏ£¬Ôò¸ü¸ÄÊó±êÖ¸ÕëÎª"Ê®×ÖÐÍ"
-        		//Si le point ne se trouve pas a l'interieur du polygone et s'il se trouve sur les sommets du polygone, modifiez le pointeur de la souris en "type de croix".
+        		//Si le point ne se trouve pas ¨¤ l'int¨¦rieur du polygone et s'il se trouve sur les sommets du polygone, modifiez le pointeur de la souris en "type de croix".
         		
         		for(int i = 0; i < x.length-1; i++) {        			
             		double distance = pc.lineSpace(new PointsM((int)(e.getX() - (getWidth() / 2)), (int)((getHeight() / 2) - e.getY())), new PointsM(x[i], y[i]));
@@ -594,7 +522,7 @@ public class PaveInterface {
         		}	
         	
 	        	//Èç¹û¹â±êÔÚ±ßÉÏ£¬Ôò¸ü¸ÄÊó±êÖ¸ÕëÎª¡°ÒÆ¶¯ÐÍ¡±
-        		//Si le curseur est sur le cote, remplacez le pointeur de la souris par "mobile"
+        		//Si le curseur est sur le cot¨¦, remplacez le pointeur de la souris par "mobile"
 	    		for(int i = 0; i < cote; i++) {
         			
 	        		double space = pc.pointToLine(new PointsM((int)(e.getX() - (getWidth() / 2)), (int)((getHeight() / 2) - e.getY())), new PointsM(x[i], y[i]), new PointsM(x[i+1], y[i+1]));
