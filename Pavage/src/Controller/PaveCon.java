@@ -18,7 +18,9 @@ public class PaveCon {
 		carre();
 	}
 	
-	
+	/**
+	 * Création d'un carré, forme de base qui est par la suite déformée par l'utilisateur
+	 */
 	public void carre() {
 		int a = pave.getLongueur_pave()/2;
 		pave.getPointList().add(new PointsM(-a, -a));
@@ -26,33 +28,32 @@ public class PaveCon {
 		pave.getPointList().add(new PointsM(a, a));
 		pave.getPointList().add(new PointsM(a, -a));
 		
-		//paveµÄ»ù±¾¶¥µãÎ»ÖÃ	Position du sommet du pave
+		//Position du sommet du pave
 		for(int i = 0; i < pave.getPointList().size(); i++) {
 			pave.getBaseindice().add(i);
 		}
 		
-		//³õÊ¼ÖÐÐÄµã	Point central initial
+		//Point central initial
 		int Sym_hor_y = (pave.getPointList().get(pave.getBaseindice().get(0)).getYpos()+pave.getPointList().get(pave.getBaseindice().get(1)).getYpos())/2;
 		int Sym_ver_x = (pave.getPointList().get(pave.getBaseindice().get(0)).getXpos()+pave.getPointList().get(pave.getBaseindice().get(3)).getXpos())/2;
 		pave.setCentre(new PointsM(Sym_ver_x, Sym_hor_y));
 		
-		//³õÊ¼™M¶Ô³ÆÖá	Axe de symetrie transversal initial 	//¿ÉÊ¡ÂÔ	Peut etre omis
+		//Axe de symetrie transversal initial (Peut etre omis)
 		pave.getSym_hor().add(new PointsM(-2*pave.getLongueur_pave() + Sym_ver_x, Sym_hor_y));
 		pave.getSym_hor().add(new PointsM(2*pave.getLongueur_pave() + Sym_ver_x, Sym_hor_y));
 		
-		//³õÊ¼×Ý¶Ô³ÆÖá	Axe de symetrie longitudinal initial	//¿ÉÊ¡ÂÔ	Peut etre omis
+		//Axe de symetrie longitudinal initial (Peut etre omis)
 		pave.getSym_ver().add(new PointsM(Sym_ver_x, -2*pave.getLongueur_pave() + Sym_hor_y));
 		pave.getSym_ver().add(new PointsM(Sym_ver_x, 2*pave.getLongueur_pave() + Sym_hor_y));
 		
 	}
 	
 
-	/**
-	 * ÔÚpaveµãµÄÁÐ±íÖÐ²éÕÒÎ»ÖÃindice	
-	 * Trouver l'emplacement dans la liste des points du pavage
-	 * @param Xpos
-	 * @param Ypos
-	 * @return int indice
+	/**	
+	 * Trouver l'indice d'un point dans la liste des points du pavage
+	 * @param Xpos Abscisse du point à rechercher
+	 * @param Ypos Ordonnée du point à rechercher
+	 * @return int indice La position du sommet dans la liste si le point existe, -1 sinon
 	 */
 	public int chercherSommetIndice(int Xpos, int Ypos) {
 		int indice = -1;
@@ -65,7 +66,6 @@ public class PaveCon {
 	
 	
 	/**
-	 * ÔÚbaseindiceÁÐ±íÖÐ²éÕÒÊÇ·ñÓÐ¶¥µãindice
 	 * Rechercher s'il y a un indice de sommet dans la liste de baseindice
 	 * @param Xpos
 	 * @param Ypos
@@ -84,10 +84,10 @@ public class PaveCon {
 	
 	
 	/**
-	 * ²éÕÒ¶Ô³ÆÐÅÏ¢ + ºóÆÚStringÐèÒª²ð·Ö
-	 * Trouver des informations symetriques + apres la chaine doit ¨ºtre divisee
+	 * Trouver des informations sur les symetries. La chaine de caractere doit ensuite etre segmentee afin de recuperer
+	 *  les informations
 	 * @param indice
-	 * @return	String des informations symetriques
+	 * @return	String des informations sur les symetries
 	 */
 	public String symPoint(int indice) {
 		String SymIndice = null;
@@ -144,18 +144,15 @@ public class PaveCon {
 	
 	
 	/**
-	 * Ìí¼ÓÒ»¸öµã¼°¶Ô³Æµã
-	 * Ajouter un point et un point de symetrie
+	 * Ajouter un point, et son image de translation afin d'obtenir une translation valide
 	 * @param indice
 	 * @param Xpos
 	 * @param Ypos
 	 */
 	public void addPoint(int indice, int Xpos, int Ypos) {
 		
-		int indice1 = indice;	//indice: ¼ÓµÚ1¸öµãÊ±µÄÎ»ÖÃ; indice1: indiceµÄÁÙÊ±±äÁ¿
-								//indice: la position lorsque le premier point est ajoute; la variable temporaire de indice1: indice
-		int indice11 = -1;	//¼ÓµÚ2¸öµã(¶Ô³Æµã)Ê±µÄÎ»ÖÃ
-							//Position lorsque le deuxi¨¨me point (point symetrique) est ajoute
+		int indice1 = indice; //indice: la position lorsque le premier point est ajoute; la variable temporaire de indice1: indice
+		int indice11 = -1;	//Position lorsque le deuxieme point (point symetrique) est ajoute
 		
 		String tempjurer[] = null;
 		if(chercherSommetIndice(Xpos, Ypos) == -1 && symPoint(indice1) != null) {
@@ -163,11 +160,11 @@ public class PaveCon {
 			
 			if(indice1 == 0) {
 				indice1 = pave.getPointList().size();			
-				pave.getPointList().add(new PointsM(Xpos, Ypos));	//¼ÓÈëµÚ1¸öµã
+				pave.getPointList().add(new PointsM(Xpos, Ypos));
 				
-			}else {
+			} else {
 				
-				//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+				//Mettre a jour la liste des positions de sommet de base des paves
 				for(int i = pave.getPointList().size() - 1; i > indice - 1; i--) {
 					int pos_i = pave.getBaseindice().indexOf(i);
 					if(pos_i != -1)
@@ -178,29 +175,25 @@ public class PaveCon {
 				
 			}
 
-			//ÄÇÃ´±ä»¯Çø¼äÎª<indice1-1, indice1>
 			//l'intervalle de changement est <indice1-1, indice1>
 			
-			//ºáÖá¶Ô³Æ	Symetrie horizontale
+			//Symetrie horizontale
 			if(tempjurer[0].equals("h") && Integer.parseInt(tempjurer[1]) != -1 && Integer.parseInt(tempjurer[1]) != indice1 - 1) {
 				
-				//¶Ô³ÆÎ»ÖÃÎªtempindex1
 				//La position symetrique est tempindex1
 				if(Integer.parseInt(tempjurer[1]) > indice1){	
-					//¶Ô³Æ±ä»¯Çø¼äÎª<tempindex1,tempindex1 + 1>
 					//L'intervalle de variation de symetrie est <tempindex1,tempindex1 + 1>
-					//¶Ô³Æ±ä»¯index = tempindex1 + 1
 					//le changement symetrique index = tempindex1 + 1
 
 					indice11 = Integer.parseInt(tempjurer[1]) + 2;
 					if(indice11 >= pave.getPointList().size()) {
 						if(tempjurer[2].equals("+"))
-							pave.getPointList().add(new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//Rejoignez le deuxieme point
 						else
-							pave.getPointList().add(new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
-					}else {
+							pave.getPointList().add(new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//Rejoignez le deuxieme point
+					} else {
 						
-						//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+						//Mettre a jour la liste des positions de sommet de base des paves
 						for(int i = pave.getPointList().size() - 1; i > indice11 - 1; i--) {
 							int pos_i = pave.getBaseindice().indexOf(i);
 							if(pos_i != -1)
@@ -213,14 +206,12 @@ public class PaveCon {
 							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
 					}
 					
-				}else {
-					//¶Ô³Æ±ä»¯Çø¼äÎª<tempindex1,tempindex1 + 1>
+				} else {
 					//L'intervalle de variation de sym'trie est <tempindex1,tempindex1 + 1>
-					//¶Ô³Æ±ä»¯index = tempindex1 + 1
 					//le changement symetrique index = tempindex1 + 1
 					indice11 = Integer.parseInt(tempjurer[1]) + 1;
 					
-					//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+					//Mettre a jour la liste des positions de sommet de base des paves
 					for(int i = pave.getPointList().size() - 1; i > indice11 - 1; i--) {
 						int pos_i = pave.getBaseindice().indexOf(i);
 						if(pos_i != -1)
@@ -228,32 +219,29 @@ public class PaveCon {
 					}
 					
 					if(tempjurer[2].equals("+"))
-						pave.getPointList().add(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+						pave.getPointList().add(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//Ajouter le deuxieme point
 					else
-						pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+						pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//Ajouter le deuxieme point
 				}
 				
 				System.out.println("L'adjonction du sommet a reussi!" + "\n");
 			
-			//×ÝÖá¶Ô³Æ	Symetrie verticale
+			//Symetrie verticale
 			} else if(tempjurer[0].equals("v") && Integer.parseInt(tempjurer[1]) != -1 && Integer.parseInt(tempjurer[1]) != indice1 - 1) {
 
-				//¶Ô³ÆÎ»ÖÃÎªtempindex2
 				//La position symetrique est tempindex2
 				if(Integer.parseInt(tempjurer[1]) > indice1) {
-					//¶Ô³Æ±ä»¯Çø¼äÎª<tempindex2,tempindex2 + 1>
 					//L¡¯intervalle de variation de symetrie est <tempindex2,tempindex2 + 1>
-					//¶Ô³Æ±ä»¯index = tempindex2 + 1
 					//le changement symetrique index = tempindex2 + 1
 					indice11 = Integer.parseInt(tempjurer[1]) + 2;
 					if(indice11 >= pave.getPointList().size()) {
 						if(tempjurer[2].equals("+"))
-							pave.getPointList().add(new PointsM(Xpos + pave.getLongueur_pave(), Ypos));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(new PointsM(Xpos + pave.getLongueur_pave(), Ypos));	//Rejoignez le deuxieme point
 						else
-							pave.getPointList().add(new PointsM(Xpos - pave.getLongueur_pave(), Ypos));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(new PointsM(Xpos - pave.getLongueur_pave(), Ypos));	//Rejoignez le deuxieme point
 					}else {
 						
-						//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+						//Mettre a jour la liste des positions de sommet de base des paves
 						for(int i = pave.getPointList().size() - 1; i > indice11 - 1; i--) {
 							int pos_i = pave.getBaseindice().indexOf(i);
 							if(pos_i != -1)
@@ -261,19 +249,17 @@ public class PaveCon {
 						}
 						
 						if(tempjurer[2].equals("+"))
-							pave.getPointList().add(indice11, new PointsM(Xpos + pave.getLongueur_pave(), Ypos));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(indice11, new PointsM(Xpos + pave.getLongueur_pave(), Ypos));	//Ajouter le deuxieme point
 						else
-							pave.getPointList().add(indice11, new PointsM(Xpos - pave.getLongueur_pave(), Ypos));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(indice11, new PointsM(Xpos - pave.getLongueur_pave(), Ypos));	//Ajouter le deuxieme point
 					}
 				}else {
 					
-					//¶Ô³Æ±ä»¯Çø¼äÎª<tempindex2,tempindex2 + 1>
 					//L'intervalle de variation de symetrie est <tempindex2,tempindex2 + 1>
-					//¶Ô³Æ±ä»¯index = tempindex2 + 1
 					//le changement symetrique index = tempindex2 + 1
 					indice11 = Integer.parseInt(tempjurer[1]) + 1;
 					
-					//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+					//Mettre a jour la liste des positions de sommets de base des paves
 					for(int i = pave.getPointList().size() - 1; i > indice11 - 1; i--) {
 						int pos_i = pave.getBaseindice().indexOf(i);
 						if(pos_i != -1)
@@ -281,9 +267,9 @@ public class PaveCon {
 					}
 					
 					if(tempjurer[2].equals("+"))
-						pave.getPointList().add(indice11, new PointsM(Xpos + pave.getLongueur_pave(), Ypos));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+						pave.getPointList().add(indice11, new PointsM(Xpos + pave.getLongueur_pave(), Ypos));	//Ajouter le deuxieme point
 					else
-						pave.getPointList().add(indice11, new PointsM(Xpos - pave.getLongueur_pave(), Ypos));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+						pave.getPointList().add(indice11, new PointsM(Xpos - pave.getLongueur_pave(), Ypos));	//Ajouter le deuxieme point
 				}
 	
 				System.out.println("L'adjonction du sommet a reussi!" + "\n");
@@ -296,8 +282,7 @@ public class PaveCon {
 	
 	
 	/**
-	 * ÒÆ¶¯Ò»¸öµã¼°¶Ô³Æµã
-	 * Deplacer un point et un point de symetrie
+	 * Deplacer un point et son 'symétrique'
 	 * @param indice
 	 * @param Xpos
 	 * @param Ypos
@@ -306,121 +291,114 @@ public class PaveCon {
 
 		int jurer = pave.getBaseindice().indexOf(indice);
 		if(jurer != -1) {
-			System.out.println("C'est le sommet initial de base de Pave et ne peut pas etre deplace!" + "\n");	//×¢Òâ£º´ËÎªpave³õÊ¼»ù±¾¶¥µã£¬²»ÄÜÒÆ¶¯£¡
+			System.out.println("C'est le sommet initial de base de Pave et ne peut pas etre deplace!" + "\n");
 		}else {
-			int indice1 = indice;	//indice1: indiceÁÙÊ±´æ´¢±äÁ¿
-									//indice1: variable de stockage temporaire de l'indice
-			int indice11 = -1;	//¶Ô³ÆµãµÄË÷Òý(indice)	Indice de points de symetrie (indice)
+			int indice1 = indice; //indice1: variable de stockage temporaire de l'indice
+			int indice11 = -1;	//Indice de points de symetrie (indice)
 			
 			String tempjurer[] = symPoint(indice1).split("_");
 			
 			if (tempjurer[0].equals("h") && tempjurer[2].equals("+")) {
-				//ºáÖá¶Ô³Æ	Symetrie horizontale
+				//Symetrie horizontale
 				indice11 = Integer.parseInt(tempjurer[1]);
 				pave.getPointList().set(indice1, new PointsM(Xpos, Ypos));
 				pave.getPointList().set(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));
 			}else if (tempjurer[0].equals("h") && tempjurer[2].equals("-")) {
-				//ºáÖá¶Ô³Æ	Symetrie horizontale
+				//Symetrie horizontale
 				indice11 = Integer.parseInt(tempjurer[1]);
 				pave.getPointList().set(indice1, new PointsM(Xpos, Ypos));
 				pave.getPointList().set(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));
 			}else if (tempjurer[0].equals("v") && tempjurer[2].equals("+")) {
-				//×ÝÖá¶Ô³Æ	Symetrie verticale
+				//Symetrie verticale
 				indice11 = Integer.parseInt(tempjurer[1]);
 				pave.getPointList().set(indice1, new PointsM(Xpos, Ypos));
 				pave.getPointList().set(indice11, new PointsM(Xpos + pave.getLongueur_pave(), Ypos));
 			}else if (tempjurer[0].equals("v") && tempjurer[2].equals("-")) {
-				//×ÝÖá¶Ô³Æ	Symetrie verticale
+				//Symetrie verticale
 				indice11 = Integer.parseInt(tempjurer[1]);
 				pave.getPointList().set(indice1, new PointsM(Xpos, Ypos));
 				pave.getPointList().set(indice11, new PointsM(Xpos - pave.getLongueur_pave(), Ypos));
 			}
 			
-			System.out.println("La deformation du sommet a reussi!" + "\n"); //¶¥µã±äÐÎ³É¹¦
+			System.out.println("La deformation du sommet a reussi!" + "\n");
 		}
 	}
 	
 	
 	
 	/**
-	 * É¾³ýÄ³¸öµã¼°¶Ô³Æµã
-	 * Supprimer un point et un point de symetrie
+	 * Supprimer un point et son point 'symetrique'
 	 * @param indice
 	 */
 	public void supprimerPoint(int indice) {
 
 		int jurer = pave.getBaseindice().indexOf(indice);
 		if(jurer != -1) {
-			System.out.println("C'est le sommet initial de base de Pave et ne peut pas etre supprime!" + "\n");	//×¢Òâ£º´ËÎªpave³õÊ¼»ù±¾¶¥µã£¬²»ÄÜÉ¾³ý£¡
+			System.out.println("C'est le sommet initial de base de Pave et ne peut pas etre supprime!" + "\n");
 		} else {
-			int indice1 = indice;	//indice1: indiceÁÙÊ±´æ´¢±äÁ¿
-									//indice1: variable de stockage temporaire de l'indice
-			int indice11 = -1;	//¶Ô³ÆµãµÄË÷Òý(indice)	Indice de points de symetrie (indice)
+			int indice1 = indice;	//indice1: variable de stockage temporaire de l'indice
+			int indice11 = -1;	//Indice de points de symetrie (indice)
 
 			String tempjurer[] = symPoint(indice1).split("_");
 			
 			if (tempjurer[0].equals("h")) {
-				//ºáÖá¶Ô³Æ	Symetrie horizontale
+				//Symetrie horizontale
 				indice11 = Integer.parseInt(tempjurer[1]);
 			}else if (tempjurer[0].equals("v")) {
-				//×ÝÖá¶Ô³Æ	Symetrie verticale
+				//Symetrie verticale
 				indice11 = Integer.parseInt(tempjurer[1]);
 			}
 			
 			if(indice1 < indice11) {
-				//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+				//Mettre a jour la liste des positions de sommet de base des paves
 				for(int i = indice11; i < pave.getPointList().size(); i++) {
 					int pos_i = pave.getBaseindice().indexOf(i);
 					if(pos_i != -1)
 						pave.getBaseindice().set(pos_i, i - 1);
 				}
-				pave.getPointList().remove(indice11);	//É¾³ýµÚ2¸öµã	Supprimer le deuxieme point
+				pave.getPointList().remove(indice11);	//Supprimer le deuxieme point
 				
-				//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des pavs
+				//Mettre a jour la liste des positions de sommet de base des paves
 				for(int i = indice1; i < pave.getPointList().size(); i++) {
 					int pos_i = pave.getBaseindice().indexOf(i);
 					if(pos_i != -1)
 						pave.getBaseindice().set(pos_i, i - 1);
 				}
-				pave.getPointList().remove(indice1);	//É¾³ýµÚ1¸öµã	Supprimer le premier point
+				pave.getPointList().remove(indice1);	//Supprimer le premier point
 			}else {
-				//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+				//Mettre a jour la liste des positions de sommet de base des paves
 				for(int i = indice1; i < pave.getPointList().size(); i++) {
 					int pos_i = pave.getBaseindice().indexOf(i);
 					if(pos_i != -1)
 						pave.getBaseindice().set(pos_i, i - 1);
 				}
-				pave.getPointList().remove(indice1);	//É¾³ýµÚ2¸öµã	Supprimer le deuxieme point
+				pave.getPointList().remove(indice1);	//Supprimer le deuxieme point
 				
-				//¸üÐÂpaveµÄ»ù±¾¶¥µãÎ»ÖÃÁÐ±í	Mettre a jour la liste des positions de sommet de base des paves
+				//Mettre a jour la liste des positions de sommet de base des paves
 				for(int i = indice11; i < pave.getPointList().size(); i++) {
 					int pos_i = pave.getBaseindice().indexOf(i);
 					if(pos_i != -1)
 						pave.getBaseindice().set(pos_i, i - 1);
 				}
-				pave.getPointList().remove(indice11);	//É¾³ýµÚ1¸öµã	Supprimer le premier point
+				pave.getPointList().remove(indice11);	//Supprimer le premier point
 			}
-			System.out.println("La suppression du sommet a reussi!" + "\n"); //É¾³ý³É¹¦
+			System.out.println("La suppression du sommet a reussi!" + "\n");
 		}
 	}
 	
 	
 	/**
-	 * ÒÆ¶¯Í¼ÐÎ
 	 * Deplacement du pave
-     * ÅÐ¶ÏµãÊÇ·ñÔÚ¶à±ßÐÎÇøÓòÄÚ
      * Determiner si le point est dans la zone du polygone
-     * @param pointLon ÒªÅÐ¶ÏµÄµãµÄ×Ý×ø±ê	L'ordonnee du point a juger
-     * @param pointLat ÒªÅÐ¶ÏµÄµãµÄºá×ø±ê	L'abscisse du point a juger
-     * @param lon ÇøÓò¸÷¶¥µãµÄ×Ý×ø±êÊý×é	Tableau d'ordonnees pour chaque sommet de la region
-     * @param lat ÇøÓò¸÷¶¥µãµÄºá×ø±êÊý×é	Un tableau d'abscisses pour chaque sommet de la region
-     * @return ÊÇ/·ñ true/false
+     * @param pointLon  L'ordonnee du point a evaluer
+     * @param pointLat	L'abscisse du point a avaluer
+     * @param lon 	Tableau d'ordonnees pour chaque sommet de la region
+     * @param lat 	Un tableau d'abscisses pour chaque sommet de la region
+     * @return true/false
      */
     public boolean isInPolygon(int pointLon, int pointLat, int[] lon, int[] lat) {
-        // ½«ÒªÅÐ¶ÏµÄºá×Ý×ø±ê×é³ÉÒ»¸öµã
     	//Composer point selon des coordonnees horizontales et verticales a juger
         Point2D.Double point = new Point2D.Double(pointLon, pointLat);
-        // ½«ÇøÓò¸÷¶¥µãµÄºá×Ý×ø±ê·Åµ½Ò»¸öµã¼¯ºÏÀïÃæ
         //Mettez les coordonnees horizontales et verticales de chaque sommet de la surface en un ensemble de points
         List<Point2D.Double> pointList = new ArrayList<Point2D.Double>();
         double polygonPoint_x = 0.0, polygonPoint_y = 0.0;
@@ -434,30 +412,25 @@ public class PaveCon {
     }
     
     /**
-     * "Ò»¸öµãÊÇ·ñÔÚ¶à±ßÐÎÄÚ" - µ÷ÓÃº¯Êý
      * "isInPolygon" - fonction d'appel
-     * @param point ÒªÅÐ¶ÏµÄµãµÄºá×Ý×ø±ê	Les coordonnees horizontales et verticales du point a juger
-     * @param polygon ×é³ÉµÄ¶¥µã×ø±ê¼¯ºÏ	Ensemble de coordonnees de sommet
-     * @return ÊÇ/·ñ	true/false
+     * @param point 	Les coordonnees horizontales et verticales du point a juger
+     * @param polygon 	Ensemble de coordonnees de sommet
+     * @return 	true/false
      */
     private boolean check(Point2D.Double point, List<Point2D.Double> polygon) {
         java.awt.geom.GeneralPath peneralPath = new java.awt.geom.GeneralPath();
  
         Point2D.Double first = polygon.get(0);
-        // Í¨¹ýÒÆ¶¯µ½Ö¸¶¨×ø±ê£¨ÒÔË«¾«¶ÈÖ¸¶¨£©£¬½«Ò»¸öµãÌí¼Óµ½Â·¾¶ÖÐ
         //Ajouter un point a la trajectoire en deplacant les coordonnees specifiees (specifiees en double precision)
         peneralPath.moveTo(first.x, first.y);
         polygon.remove(0);
         for (Point2D.Double d : polygon) {
-            // Í¨¹ý»æÖÆÒ»Ìõ´Óµ±Ç°×ø±êµ½ÐÂÖ¸¶¨×ø±ê£¨ÒÔË«¾«¶ÈÖ¸¶¨£©µÄÖ±Ïß£¬½«Ò»¸öµãÌí¼Óµ½Â·¾¶ÖÐ¡£
         	//Ajoutez un point au trace en tracant une ligne entre les coordonnees actuelles et les nouvelles coordonnees (specifiees en double precision).
             peneralPath.lineTo(d.x, d.y);
         }
-        // ½«¼¸ºÎ¶à±ßÐÎ·â±Õ
         //Fermer le polygone geometrique
         peneralPath.lineTo(first.x, first.y);
         peneralPath.closePath();
-        // ²âÊÔÖ¸¶¨µÄ Point2D ÊÇ·ñÔÚ Shape µÄ±ß½çÄÚ¡£
         //Teste si le Point2D specifie est dans les limites de la forme.
         return peneralPath.contains(point);
     }
