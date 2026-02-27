@@ -1,23 +1,25 @@
 package View;
 
+import java.awt.AWTException;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import Controller.PaveCon;
-import Model.PaveM;
-import javax.swing.JRadioButton;
-import javax.swing.filechooser.FileSystemView;
-import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -30,14 +32,18 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.event.ItemEvent;
-import javax.swing.JLabel;
+
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
-import java.awt.AWTException;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.filechooser.FileSystemView;
+
+import Controller.PaveCon;
+import Model.PaveM;
 
 public class PavageInterface {
 
@@ -65,89 +71,100 @@ public class PavageInterface {
 	private void initialize() {
 		jframe = new JFrame();
 		jframe.setTitle("Pavage");
-		jframe.setResizable(false);
+		jframe.setResizable(true);
 		jframe.setBounds(85, 50, 1366, 768);
 		jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		jframe.setAlwaysOnTop(true);
 		jframe.getContentPane().setBackground(SystemColor.window);
-		jframe.getContentPane().setLayout(null);
-		jframe.setVisible(true);
+		jframe.getContentPane().setLayout(new BorderLayout());
 		
 		Mypanel panel_1 = new Mypanel();
-		panel_1.setBounds(10, 10, 1120, 720);
-		jframe.getContentPane().add(panel_1);
+		panel_1.setPreferredSize(new Dimension(1120, 720));
+		jframe.getContentPane().add(panel_1, BorderLayout.CENTER);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1140, 10, 212, 720);
-		jframe.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		panel_2.setPreferredSize(new Dimension(220, 720));
+		jframe.getContentPane().add(panel_2, BorderLayout.EAST);
+		panel_2.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		
-		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier le pave");
+		JRadioButton rdbtnAffichierPave = new JRadioButton("Afficher le pav\u00e9");
 		rdbtnAffichierPave.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(AfficherPave == true)
-					AfficherPave = false;
-				else
-					AfficherPave = true;
+				AfficherPave = !AfficherPave;
 			}
 		});
 
-		rdbtnAffichierPave.setToolTipText("Afficher le pave");
+		rdbtnAffichierPave.setToolTipText("Afficher le pav\u00e9");
 		rdbtnAffichierPave.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtnAffichierPave.setBounds(6, 52, 232, 23);
-		panel_2.add(rdbtnAffichierPave);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		panel_2.add(rdbtnAffichierPave, gbc);
+		gbc.gridwidth = 1;
 		
-		JLabel lblCouleurDeFond = new JLabel("Couleur de fond du pave :");
+		gbc.insets = new Insets(20, 5, 5, 5);
+		gbc.gridy = 1;
+		JLabel lblCouleurDeFond = new JLabel("Couleur de fond du pav\u00e9 :");
 		lblCouleurDeFond.setFont(new Font("Arial", Font.BOLD, 13));
-		lblCouleurDeFond.setBounds(10, 127, 192, 15);
-		panel_2.add(lblCouleurDeFond);
+		panel_2.add(lblCouleurDeFond, gbc);
+		gbc.insets = new Insets(5, 5, 5, 5);
 		
 		
 		
 		JPanel panelCouleur_1 = new JPanel();
-		panelCouleur_1.setBounds(115, 152, 87, 23);
+		panelCouleur_1.setPreferredSize(new Dimension(87, 23));
 		panelCouleur_1.setBackground(c1);
-		panel_2.add(panelCouleur_1);
+		gbc.gridy = 2;
+		panel_2.add(panelCouleur_1, gbc);
 		
 		JPanel panelCouleur_2 = new JPanel();
-		panelCouleur_2.setBounds(115, 188, 87, 23);
+		panelCouleur_2.setPreferredSize(new Dimension(87, 23));
 		panelCouleur_2.setBackground(c2);
-		panel_2.add(panelCouleur_2);
+		gbc.gridy = 3;
+		panel_2.add(panelCouleur_2, gbc);
 		
 		JButton btnCouleur_1 = new JButton("couleur 1");
 		btnCouleur_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();
-				Color color = chooser.showDialog(panelCouleur_1,"Couleur de fond du pave",Color.lightGray );
-	            if (color != null)
-	            	c1 = color;  
-	            panelCouleur_1.setBackground(c1);
-	            new Mypanel(); 
+				Color color = chooser.showDialog(panelCouleur_1,"Couleur de fond du pav\u00e9",Color.lightGray );
+			    if (color != null)
+			    	c1 = color;  
+			    panelCouleur_1.setBackground(c1);
+			    panel_1.repaint();
 			}
 		});
 		btnCouleur_1.setForeground(Color.BLACK);
 		btnCouleur_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCouleur_1.setBackground(SystemColor.scrollbar);
-		btnCouleur_1.setBounds(6, 152, 99, 23);
-		panel_2.add(btnCouleur_1);
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		panel_2.add(btnCouleur_1, gbc);
 		
 		JButton btnCouleur_2 = new JButton("couleur 2");
 		btnCouleur_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();
-	            Color color = chooser.showDialog(panelCouleur_2,"Couleur de fond du pave",Color.lightGray );
-	            if (color != null)
-	            	c2 = color;  
-	            panelCouleur_2.setBackground(c2);
-	            new Mypanel(); 
+			    Color color = chooser.showDialog(panelCouleur_2,"Couleur de fond du pav\u00e9",Color.lightGray );
+			    if (color != null)
+			    	c2 = color;  
+			    panelCouleur_2.setBackground(c2);
+			    panel_1.repaint();
 			}
 		});
 		btnCouleur_2.setForeground(Color.BLACK);
 		btnCouleur_2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCouleur_2.setBackground(SystemColor.scrollbar);
-		btnCouleur_2.setBounds(6, 188, 99, 23);
-		panel_2.add(btnCouleur_2);
+		gbc.gridy = 3;
+		panel_2.add(btnCouleur_2, gbc);
 		
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(30, 5, 5, 5);
 		JButton btnCapture = new JButton("Capture");
 		btnCapture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -155,32 +172,26 @@ public class PavageInterface {
 					String filepath ="C:\\WINDOWS\\system32\\SnippingTool.exe";
 					File testFile = new File(filepath);
 					if(!testFile .exists()) {
-						System.out.println("\"snipping tool\" du systeme n'existe pas. Appeler la fonction de capture d'ecran personnalisee.");
-//						testFile.createNewFile();
-						
-						//Capture d'ecran personnalisee
-						//Fonctionnement en plein ecran
+						System.out.println("snipping tool du syst\u00e8me n'existe pas. Appeler la fonction de capture d'\u00e9cran personnalis\u00e9e.");
 						RectD rd = new RectD();
 					    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					    gd.setFullScreenWindow(rd);
-						
 					}else {
 						   java.lang.Runtime.getRuntime().exec(filepath);
-						   System.out.println("\"snipping tool\" du systeme existe.");
+						   System.out.println("snipping tool du syst\u00e8me existe.");
 					}
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
 			}
 		});
 		btnCapture.setForeground(Color.BLACK);
 		btnCapture.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCapture.setBackground(SystemColor.scrollbar);
-		btnCapture.setBounds(6, 282, 196, 23);
-		panel_2.add(btnCapture);
+		panel_2.add(btnCapture, gbc);
+		gbc.insets = new Insets(5, 5, 5, 5);
 		
+		gbc.gridy = 5;
 		JButton btnEnregistrerPavage = new JButton("Enregistrer Pavage");
 		btnEnregistrerPavage.setToolTipText("Enregistrer Pavage");
 		btnEnregistrerPavage.addActionListener(new ActionListener() {
@@ -189,11 +200,9 @@ public class PavageInterface {
 				try {
 					myImage = new Robot().createScreenCapture(
 							new Rectangle(jframe.getX()+17, jframe.getY()+40, panel_1.getWidth(), panel_1.getHeight()));
-//					private String path = System.getProperty("user.dir"); //dans le repertoire courant du projet
-//					ImageIO.write(myImage, "jpg", new File(path + "/pavage.jpg"));
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddHHmmss");
 					String name = "Pavage_" + sdf.format(new Date());
-					File path = FileSystemView.getFileSystemView().getHomeDirectory(); //Emplacement du bureau
+					File path = FileSystemView.getFileSystemView().getHomeDirectory();
 					String format = "jpg";
 					File file = new File(path + File.separator + name + "." + format);
 					ImageIO.write(myImage, format, file);
@@ -207,8 +216,16 @@ public class PavageInterface {
 		btnEnregistrerPavage.setForeground(Color.BLACK);
 		btnEnregistrerPavage.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEnregistrerPavage.setBackground(SystemColor.scrollbar);
-		btnEnregistrerPavage.setBounds(6, 315, 196, 23);
-		panel_2.add(btnEnregistrerPavage);
+		panel_2.add(btnEnregistrerPavage, gbc);
+		
+		gbc.gridy = 6;
+		gbc.weighty = 1.0;
+		gbc.fill = GridBagConstraints.VERTICAL;
+		JPanel filler = new JPanel();
+		filler.setOpaque(false);
+		panel_2.add(filler, gbc);
+		
+		jframe.setVisible(true);
 		
 		
 		
