@@ -60,6 +60,16 @@ public class PavageInterface {
 	private JButton btnCapture;
 	private JButton btnEnregistrerPavage;
 	
+	// Constantes de mise en page
+	private static final double RIGHT_PANEL_RATIO = 0.18;	// Ratio du panneau droit
+	private static final int MIN_RIGHT_PANEL_WIDTH = 220;
+	private static final int MAX_RIGHT_PANEL_WIDTH = 300;
+	private static final int MARGIN = 10;
+	
+	// Tailles de police adaptatives
+	private Font titleFont;
+	private Font labelFont;
+	private Font buttonFont;
 
 	// Obtenir l'ensemble des points du pave
 	static PaveM pavem = new PaveM();
@@ -78,24 +88,30 @@ public class PavageInterface {
 	 */
 	private void initialize() {
 		jframe = new JFrame();
-		jframe.setTitle("Pavage");
+		jframe.setTitle("Pavage - Visualisation");
 		jframe.setResizable(true);
-		jframe.setBounds(85, 50, 1366, 768);
+		jframe.setBounds(85, 50, 1400, 800);
 		jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		jframe.getContentPane().setBackground(SystemColor.window);
 		jframe.getContentPane().setLayout(null);
 		jframe.setVisible(true);
 		
+		// Initialiser les polices
+		updateFonts(jframe.getWidth());
+		
+		// Panneau principal de visualisation
 		panel_1 = new Mypanel();
-		panel_1.setBounds(10, 10, 1120, 720);
+		panel_1.setBackground(Color.WHITE);
 		jframe.getContentPane().add(panel_1);
 		
+		// Panneau d'options
 		panel_2 = new JPanel();
-		panel_2.setBounds(1140, 10, 212, 720);
-		jframe.getContentPane().add(panel_2);
+		panel_2.setBackground(SystemColor.control);
 		panel_2.setLayout(null);
+		jframe.getContentPane().add(panel_2);
 		
-		rdbtnAffichierPave = new JRadioButton("Afficher le pav\u00e9");
+		// Radio button pour afficher le pave
+		rdbtnAffichierPave = new JRadioButton("Afficher le pave");
 		rdbtnAffichierPave.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(AfficherPave == true)
@@ -104,95 +120,85 @@ public class PavageInterface {
 					AfficherPave = true;
 			}
 		});
-
-		rdbtnAffichierPave.setToolTipText("Afficher le pav\u00e9");
-		rdbtnAffichierPave.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtnAffichierPave.setBounds(6, 52, 232, 23);
+		rdbtnAffichierPave.setToolTipText("Afficher le pave");
+		rdbtnAffichierPave.setFont(labelFont);
 		panel_2.add(rdbtnAffichierPave);
 		
-		lblCouleurDeFond = new JLabel("Couleur de fond du pav\u00e9 :");
-		lblCouleurDeFond.setFont(new Font("Arial", Font.BOLD, 13));
-		lblCouleurDeFond.setBounds(10, 127, 192, 15);
+		// Label couleur de fond
+		lblCouleurDeFond = new JLabel("Couleur de fond :");
+		lblCouleurDeFond.setFont(labelFont);
 		panel_2.add(lblCouleurDeFond);
 		
-		
-		
+		// Panneaux de couleur
 		panelCouleur_1 = new JPanel();
-		panelCouleur_1.setBounds(115, 152, 87, 23);
 		panelCouleur_1.setBackground(c1);
 		panel_2.add(panelCouleur_1);
 		
 		panelCouleur_2 = new JPanel();
-		panelCouleur_2.setBounds(115, 188, 87, 23);
 		panelCouleur_2.setBackground(c2);
 		panel_2.add(panelCouleur_2);
 		
-		btnCouleur_1 = new JButton("couleur 1");
+		// Bouton couleur 1
+		btnCouleur_1 = new JButton("Couleur 1");
 		btnCouleur_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();
-				Color color = chooser.showDialog(panelCouleur_1,"Couleur de fond du pav\u00e9",Color.lightGray );
-	            if (color != null)
-	            	c1 = color;  
-	            panelCouleur_1.setBackground(c1);
-	            new Mypanel(); 
+				Color color = chooser.showDialog(panelCouleur_1, "Couleur de fond du pave", Color.lightGray);
+				if (color != null)
+					c1 = color;
+				panelCouleur_1.setBackground(c1);
+				new Mypanel();
 			}
 		});
 		btnCouleur_1.setForeground(Color.BLACK);
-		btnCouleur_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCouleur_1.setFont(buttonFont);
 		btnCouleur_1.setBackground(SystemColor.scrollbar);
-		btnCouleur_1.setBounds(6, 152, 99, 23);
 		panel_2.add(btnCouleur_1);
 		
-		btnCouleur_2 = new JButton("couleur 2");
+		// Bouton couleur 2
+		btnCouleur_2 = new JButton("Couleur 2");
 		btnCouleur_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();
-	            Color color = chooser.showDialog(panelCouleur_2,"Couleur de fond du pav\u00e9",Color.lightGray );
-	            if (color != null)
-	            	c2 = color;  
-	            panelCouleur_2.setBackground(c2);
-	            new Mypanel(); 
+				Color color = chooser.showDialog(panelCouleur_2, "Couleur de fond du pave", Color.lightGray);
+				if (color != null)
+					c2 = color;
+				panelCouleur_2.setBackground(c2);
+				new Mypanel();
 			}
 		});
 		btnCouleur_2.setForeground(Color.BLACK);
-		btnCouleur_2.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCouleur_2.setFont(buttonFont);
 		btnCouleur_2.setBackground(SystemColor.scrollbar);
-		btnCouleur_2.setBounds(6, 188, 99, 23);
 		panel_2.add(btnCouleur_2);
 		
+		// Bouton capture
 		btnCapture = new JButton("Capture");
 		btnCapture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String filepath ="C:\\WINDOWS\\system32\\SnippingTool.exe";
+					String filepath = "C:\\WINDOWS\\system32\\SnippingTool.exe";
 					File testFile = new File(filepath);
-					if(!testFile .exists()) {
-						System.out.println("\"snipping tool\" du syst\u00e8me n'existe pas. Appeler la fonction de capture d'\u00e9cran personnalis\u00e9e.");
-						
-						// Capture d'\u00e9cran personnalis\u00e9e
-						// Fonctionnement en plein \u00e9cran
+					if(!testFile.exists()) {
+						System.out.println("Outil de capture systeme non trouve. Utilisation de la capture personnalisee.");
 						RectD rd = new RectD();
-					    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-					    gd.setFullScreenWindow(rd);
-						
-					}else {
-						   java.lang.Runtime.getRuntime().exec(filepath);
-						   System.out.println("\"snipping tool\" du syst\u00e8me existe.");
+						GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+						gd.setFullScreenWindow(rd);
+					} else {
+						java.lang.Runtime.getRuntime().exec(filepath);
+						System.out.println("Outil de capture systeme lance.");
 					}
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
 			}
 		});
 		btnCapture.setForeground(Color.BLACK);
-		btnCapture.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCapture.setFont(buttonFont);
 		btnCapture.setBackground(SystemColor.scrollbar);
-		btnCapture.setBounds(6, 282, 196, 23);
 		panel_2.add(btnCapture);
 		
+		// Bouton enregistrer
 		btnEnregistrerPavage = new JButton("Enregistrer Pavage");
 		btnEnregistrerPavage.setToolTipText("Enregistrer Pavage");
 		btnEnregistrerPavage.addActionListener(new ActionListener() {
@@ -215,12 +221,11 @@ public class PavageInterface {
 			}
 		});
 		btnEnregistrerPavage.setForeground(Color.BLACK);
-		btnEnregistrerPavage.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnEnregistrerPavage.setFont(buttonFont);
 		btnEnregistrerPavage.setBackground(SystemColor.scrollbar);
-		btnEnregistrerPavage.setBounds(6, 315, 196, 23);
 		panel_2.add(btnEnregistrerPavage);
 		
-		// Ajouter un \u00e9couteur de redimensionnement pour mettre \u00e0 jour la disposition
+		// Ajouter un ecouteur de redimensionnement
 		jframe.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -230,48 +235,120 @@ public class PavageInterface {
 		
 		// Disposition initiale
 		updateLayout();
-		
 	}
 	
 	/**
-	 * Mettre \u00e0 jour la disposition des composants lors du redimensionnement de la fen\u00eatre
+	 * Mettre a jour les polices en fonction de la taille de la fenetre
+	 */
+	private void updateFonts(int windowWidth) {
+		int baseSize = Math.max(12, windowWidth / 80);
+		
+		titleFont = new Font("Arial", Font.BOLD, baseSize + 6);
+		labelFont = new Font("Arial", Font.BOLD, baseSize + 2);
+		buttonFont = new Font("Arial", Font.BOLD, baseSize + 2);
+		
+		if (rdbtnAffichierPave != null) rdbtnAffichierPave.setFont(labelFont);
+		if (lblCouleurDeFond != null) lblCouleurDeFond.setFont(labelFont);
+		if (btnCouleur_1 != null) btnCouleur_1.setFont(buttonFont);
+		if (btnCouleur_2 != null) btnCouleur_2.setFont(buttonFont);
+		if (btnCapture != null) btnCapture.setFont(buttonFont);
+		if (btnEnregistrerPavage != null) btnEnregistrerPavage.setFont(buttonFont);
+	}
+	
+	/**
+	 * Mettre a jour la disposition des composants lors du redimensionnement de la fenetre
 	 */
 	private void updateLayout() {
 		int width = jframe.getContentPane().getWidth();
 		int height = jframe.getContentPane().getHeight();
 		
-		// Largeur fixe pour le panneau d'options
-		int panel2Width = 212;
-		int margin = 10;
+		// Calculer la largeur du panneau droit avec des limites min/max
+		int panel2Width = (int) (width * RIGHT_PANEL_RATIO);
+		panel2Width = Math.max(MIN_RIGHT_PANEL_WIDTH, Math.min(MAX_RIGHT_PANEL_WIDTH, panel2Width));
 		
-		// Calculer les nouvelles dimensions
-		int panel1Width = width - panel2Width - margin * 3;
-		int panelHeight = height - margin * 2;
+		// Calculer les dimensions
+		int panel1Width = width - panel2Width - MARGIN * 3;
+		int panelHeight = height - MARGIN * 2;
 		
-		// Mettre \u00e0 jour les limites des panneaux
+		// Mettre a jour les limites des panneaux
 		if (panel_1 != null) {
-			panel_1.setBounds(margin, margin, panel1Width, panelHeight);
+			panel_1.setBounds(MARGIN, MARGIN, panel1Width, panelHeight);
 		}
 		if (panel_2 != null) {
-			panel_2.setBounds(width - panel2Width - margin, margin, panel2Width, panelHeight);
+			panel_2.setBounds(width - panel2Width - MARGIN, MARGIN, panel2Width, panelHeight);
 		}
 		
-		// Forcer le rafra\u00eechissement
+		// Mettre a jour les polices
+		updateFonts(width);
+		
+		// Positionner les composants du panneau droit
+		updateRightPanelComponents(panel2Width, panelHeight);
+		
+		// Forcer le rafraichissement
 		jframe.getContentPane().revalidate();
 		jframe.getContentPane().repaint();
 	}
 	
+	/**
+	 * Mettre a jour la position des composants dans le panneau droit
+	 */
+	private void updateRightPanelComponents(int panelWidth, int panelHeight) {
+		int x = 10;
+		int y = 20;
+		int componentWidth = panelWidth - 20;
+		int lineHeight = Math.max(28, panelHeight / 25);
+		
+		// Radio button afficher pave
+		if (rdbtnAffichierPave != null) {
+			rdbtnAffichierPave.setBounds(x, y, componentWidth, lineHeight);
+			y += lineHeight + 20;
+		}
+		
+		// Label couleur
+		if (lblCouleurDeFond != null) {
+			lblCouleurDeFond.setBounds(x, y, componentWidth, lineHeight);
+			y += lineHeight + 10;
+		}
+		
+		// Boutons et panneaux de couleur
+		int colorPanelSize = Math.max(25, lineHeight);
+		if (btnCouleur_1 != null) {
+			btnCouleur_1.setBounds(x, y, componentWidth / 2 - 5, lineHeight);
+		}
+		if (panelCouleur_1 != null) {
+			panelCouleur_1.setBounds(x + componentWidth / 2 + 5, y + (lineHeight - colorPanelSize) / 2, 
+				componentWidth / 2 - 5, colorPanelSize);
+		}
+		y += lineHeight + 10;
+		
+		if (btnCouleur_2 != null) {
+			btnCouleur_2.setBounds(x, y, componentWidth / 2 - 5, lineHeight);
+		}
+		if (panelCouleur_2 != null) {
+			panelCouleur_2.setBounds(x + componentWidth / 2 + 5, y + (lineHeight - colorPanelSize) / 2, 
+				componentWidth / 2 - 5, colorPanelSize);
+		}
+		y += lineHeight + 30;
+		
+		// Boutons capture et enregistrer
+		if (btnCapture != null) {
+			btnCapture.setBounds(x, y, componentWidth, lineHeight + 5);
+			y += lineHeight + 15;
+		}
+		if (btnEnregistrerPavage != null) {
+			btnEnregistrerPavage.setBounds(x, y, componentWidth, lineHeight + 5);
+		}
+	}
 
-	
 	static class Mypanel extends JPanel{
 
-		// Fonction de dessin r\u00e9\u00e9crite, dessiner pav\u00e9 de tuiles
+		// Fonction de dessin reecrite, dessiner pave de tuiles
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			// D\u00e9finir le syst\u00e8me de coordonn\u00e9es 2D
+			// Definir le systeme de coordonnees 2D
 	        Graphics2D g2d = (Graphics2D)g;
-	        g2d.translate(0, getHeight());// D\u00e9finir l'axe dans le coin inf\u00e9rieur gauche du panneau
-	        g2d.scale(1, -1); // Retourner l'axe des coordonn\u00e9es
+	        g2d.translate(0, getHeight());// Definir l'axe dans le coin inferieur gauche du panneau
+	        g2d.scale(1, -1); // Retourner l'axe des coordonnees
 	        
 	        
 			int cote = pavem.getPointList().size();
@@ -300,11 +377,6 @@ public class PavageInterface {
 				starty[i] = pavem.getPointList().get(i).getYpos();
 				basestarty[i] = starty[i];
 			}
-			
-			
-			
-
-			
 			
 			for(int k = 0; k < 4; k++) {
 				if(k == 0) {
@@ -368,11 +440,10 @@ public class PavageInterface {
 						
 						repaint();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
-					// Si le dessin est termin\u00e9, quittez la boucle
+					// Si le dessin est termine, quittez la boucle
 					if(centrex > (getSize().width + pavem.getLongueur_pave()*2) && centrey > (getSize().height + pavem.getLongueur_pave()*2))
 						break;
 						
@@ -386,7 +457,7 @@ public class PavageInterface {
 						centrex = startcentrex;
 						centrey += longueur*2;
 					}else {
-						// Si dans la ligne en cours, obtient la position de coordonn\u00e9es de la prochaine image
+						// Si dans la ligne en cours, obtient la position de coordonnees de la prochaine image
 						for(int i = 0; i < cote; i++) {
 							x[i] += longueur*2;
 						}
@@ -396,7 +467,6 @@ public class PavageInterface {
 			}
 		}
 	}
-	
 	
 	
 	
@@ -412,7 +482,6 @@ public class PavageInterface {
 		
 		@Override
 		public void paint(Graphics g) {
-				                          // Facteur d'\u00e9chelle et offset
 			RescaleOp ro=new RescaleOp(0.8f, 0, null);
 			tempImage=ro.filter(image, null);
 			g.drawImage(tempImage, 0, 0,this);
@@ -429,9 +498,8 @@ public class PavageInterface {
 					orgy=e.getY();
 				}
 			});
-			// compteur de mouvement de souris
+			
 			this.addMouseMotionListener(new MouseMotionAdapter() {
-				// Souris glisser \u00e9v\u00e9nement
 				public void mouseDragged(MouseEvent e) {
 					endx=e.getX();
 					endy=e.getY();
@@ -450,9 +518,7 @@ public class PavageInterface {
 			
 			this.addKeyListener(new KeyAdapter() {
 				@Override
-				// Bouton de lib\u00e9ration
 				public void keyReleased(KeyEvent e){
-					// Appuyez sur Esc pour quitter
 					if(e.getKeyCode()==27){
 						saveToFile();
 						System.exit(0);
@@ -485,6 +551,4 @@ public class PavageInterface {
 			}
 		}
 	}
-	
-	
 }
