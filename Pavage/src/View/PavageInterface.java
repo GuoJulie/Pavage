@@ -38,6 +38,8 @@ import javax.swing.JColorChooser;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.AWTException;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 
 public class PavageInterface {
 
@@ -46,40 +48,46 @@ public class PavageInterface {
 	private static Color c1 = Color.BLACK;
 	private static Color c2 = Color.WHITE;
 	
-
-	//Obtenir l'ensemble des points du pave
 	static PaveM pavem = new PaveM();
 	static PaveCon pave = new PaveCon(pavem);
 
-	/**
-	 * Create the application.
-	 */
 	public PavageInterface(PaveM pavem) {
 		this.pavem = pavem;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		jframe = new JFrame();
 		jframe.setTitle("Pavage");
-		jframe.setResizable(false);
+		jframe.setResizable(true);
 		jframe.setBounds(85, 50, 1366, 768);
+		jframe.setMinimumSize(new Dimension(800, 600));
 		jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		jframe.setAlwaysOnTop(true);
 		jframe.getContentPane().setBackground(SystemColor.window);
-		jframe.getContentPane().setLayout(null);
 		jframe.setVisible(true);
 		
+		GridBagLayout gbl_main = new GridBagLayout();
+		gbl_main.columnWidths = new int[]{0, 220};
+		gbl_main.rowHeights = new int[]{0};
+		gbl_main.columnWeights = new double[]{1.0, 0.0};
+		gbl_main.rowWeights = new double[]{1.0};
+		jframe.getContentPane().setLayout(gbl_main);
+		
 		Mypanel panel_1 = new Mypanel();
-		panel_1.setBounds(10, 10, 1120, 720);
-		jframe.getContentPane().add(panel_1);
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 0;
+		jframe.getContentPane().add(panel_1, gbc_panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1140, 10, 212, 720);
-		jframe.getContentPane().add(panel_2);
+		panel_2.setPreferredSize(new Dimension(212, 720));
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.fill = GridBagConstraints.VERTICAL;
+		gbc_panel_2.anchor = GridBagConstraints.EAST;
+		gbc_panel_2.gridx = 1;
+		gbc_panel_2.gridy = 0;
+		jframe.getContentPane().add(panel_2, gbc_panel_2);
 		panel_2.setLayout(null);
 		
 		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier le pave");
@@ -101,8 +109,6 @@ public class PavageInterface {
 		lblCouleurDeFond.setFont(new Font("Arial", Font.BOLD, 13));
 		lblCouleurDeFond.setBounds(10, 127, 192, 15);
 		panel_2.add(lblCouleurDeFond);
-		
-		
 		
 		JPanel panelCouleur_1 = new JPanel();
 		panelCouleur_1.setBounds(115, 152, 87, 23);
@@ -156,20 +162,14 @@ public class PavageInterface {
 					File testFile = new File(filepath);
 					if(!testFile .exists()) {
 						System.out.println("\"snipping tool\" du systeme n'existe pas. Appeler la fonction de capture d'ecran personnalisee.");
-//						testFile.createNewFile();
-						
-						//Capture d'ecran personnalisee
-						//Fonctionnement en plein ecran
 						RectD rd = new RectD();
 					    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					    gd.setFullScreenWindow(rd);
-						
 					}else {
 						   java.lang.Runtime.getRuntime().exec(filepath);
 						   System.out.println("\"snipping tool\" du systeme existe.");
 					}
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -189,11 +189,9 @@ public class PavageInterface {
 				try {
 					myImage = new Robot().createScreenCapture(
 							new Rectangle(jframe.getX()+17, jframe.getY()+40, panel_1.getWidth(), panel_1.getHeight()));
-//					private String path = System.getProperty("user.dir"); //dans le repertoire courant du projet
-//					ImageIO.write(myImage, "jpg", new File(path + "/pavage.jpg"));
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddHHmmss");
 					String name = "Pavage_" + sdf.format(new Date());
-					File path = FileSystemView.getFileSystemView().getHomeDirectory(); //Emplacement du bureau
+					File path = FileSystemView.getFileSystemView().getHomeDirectory();
 					String format = "jpg";
 					File file = new File(path + File.separator + name + "." + format);
 					ImageIO.write(myImage, format, file);
@@ -209,23 +207,15 @@ public class PavageInterface {
 		btnEnregistrerPavage.setBackground(SystemColor.scrollbar);
 		btnEnregistrerPavage.setBounds(6, 315, 196, 23);
 		panel_2.add(btnEnregistrerPavage);
-		
-		
-		
 	}
-	
-
 	
 	static class Mypanel extends JPanel{
 
-		//Fonction de dessin reecrite, dessiner pave de tuiles
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			//Definir le systeme de coordonnees 2D
 	        Graphics2D g2d = (Graphics2D)g;
-	        g2d.translate(0, getHeight());//Definir l'axe dans le coin inferieur gauche du panneau
-	        g2d.scale(1, -1); //Retourner l'axe des cordonnees
-	        
+	        g2d.translate(0, getHeight());
+	        g2d.scale(1, -1);
 	        
 			int cote = pavem.getPointList().size();
 			int longueur = pavem.getLongueur_pave();
@@ -241,9 +231,7 @@ public class PavageInterface {
 			int startcentrey = pavem.getCentre().getYpos();
 			int basestartcentrex = pavem.getCentre().getXpos();
 			int basestartcentrey = pavem.getCentre().getYpos();
-			int ecart, ecart1 = 0;
 			Color c = null;
-			String tempjurer = null;
 			
 			for(int i = 0; i < cote; i++) {
 				x[i] = pavem.getPointList().get(i).getXpos();
@@ -254,16 +242,9 @@ public class PavageInterface {
 				basestarty[i] = starty[i];
 			}
 			
-			
-			
-			
-
-			
-			
-			
 			for(int k = 0; k < 4; k++) {
 				if(k == 0) {
-					c = c1;// Changer la couleur // 0. Meme dessiner <vert> (0 debut) + ligne impaire (debut a 1 ligne)
+					c = c1;
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i];
 						starty[i] = basestarty[i];
@@ -274,7 +255,7 @@ public class PavageInterface {
 					}
 				}
 				else if(k == 1){
-					c = c2;	// Change la couleur / / 1. Odd to draw <Jaune> (1 debut) + lignes impaires (commencant a 1 ligne)
+					c = c2;
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i] - longueur;
 						starty[i] = basestarty[i];
@@ -285,7 +266,7 @@ public class PavageInterface {
 					}
 				}
 				else if(k == 2){
-					c = c1;	//Changer de couleur // 2. Dessin impair <vert> (1 debut) + ligne paire (debut 0)
+					c = c1;
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i] - longueur;
 						starty[i] = basestarty[i] - longueur;
@@ -296,7 +277,7 @@ public class PavageInterface {
 					}
 				}
 				else if(k == 3){
-					c = c2;	//Changer de couleur // 3. Meme dessiner <jaune> (0 debut) + ligne paire (debut 0)
+					c = c2;
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i];
 						starty[i] = basestarty[i] - longueur;
@@ -308,32 +289,23 @@ public class PavageInterface {
 				}
 				
 				while (true) {
-					
-					//Dessiner un polygone
 					try {
 						Polygon p = new Polygon(x,y,cote);
-						
 						g2d.setColor(c);
 						g2d.fillPolygon(p);
-						
 						if(AfficherPave == true) {
 							g2d.setColor(Color.RED);
 							g2d.drawPolygon(p);
 						}
-						
 						repaint();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
-					//Si le dessin est termine, quittez la boucle
 					if(centrex > (getSize().width + pavem.getLongueur_pave()*2) && centrey > (getSize().height + pavem.getLongueur_pave()*2))
 						break;
 						
-					//Si vous avez fini de tracer une ligne, tracez une ligne
 					if (centrex > (getSize().width + pavem.getLongueur_pave()*2)) {
-						
 						for(int i = 0; i < cote; i++) {
 							x[i] = startx[i];
 							y[i] += longueur*2;
@@ -341,7 +313,6 @@ public class PavageInterface {
 						centrex = startcentrex;
 						centrey += longueur*2;
 					}else {
-						//Si dans la ligne en cours, obtient la position de coordonnees de la prochaine image
 						for(int i = 0; i < cote; i++) {
 							x[i] += longueur*2;
 						}
@@ -351,9 +322,6 @@ public class PavageInterface {
 			}
 		}
 	}
-	
-	
-	
 	
 	class RectD extends JFrame{
 		
@@ -367,7 +335,6 @@ public class PavageInterface {
 		
 		@Override
 		public void paint(Graphics g) {
-			                          //Facteur d'echelle et offset
 			RescaleOp ro=new RescaleOp(0.8f, 0, null);
 			tempImage=ro.filter(image, null);
 			g.drawImage(tempImage, 0, 0,this);
@@ -376,7 +343,6 @@ public class PavageInterface {
 		public RectD(){
 			snapshot();
 			setVisible(true);
-			//setSize(d);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			
 			this.addMouseListener(new MouseAdapter(){
@@ -385,9 +351,7 @@ public class PavageInterface {
 					orgy=e.getY();
 				}
 			});
-			//compteur de mouvement de souris
 			this.addMouseMotionListener(new MouseMotionAdapter() {
-				//Souris glisser evenement
 				public void mouseDragged(MouseEvent e) {
 					endx=e.getX();
 					endy=e.getY();
@@ -406,9 +370,7 @@ public class PavageInterface {
 			
 			this.addKeyListener(new KeyAdapter() {
 				@Override
-				//Bouton de liberation
 				public void keyReleased(KeyEvent e){
-					//Appuyez sur Esc pour quitter
 					if(e.getKeyCode()==27){
 						saveToFile();
 						System.exit(0);
@@ -430,17 +392,13 @@ public class PavageInterface {
 		}
 		
 		public void snapshot(){
-			
 			try {
 				Robot robot= new Robot();
 				Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
 				image=robot.createScreenCapture(new Rectangle(0,0,d.width,d.height));
-				
 			} catch (AWTException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
 }
