@@ -38,6 +38,8 @@ import javax.swing.JColorChooser;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.AWTException;
+import java.awt.BorderLayout;
+import javax.swing.JSplitPane;
 
 public class PavageInterface {
 
@@ -65,25 +67,28 @@ public class PavageInterface {
 	private void initialize() {
 		jframe = new JFrame();
 		jframe.setTitle("Pavage");
-		jframe.setResizable(false);
+		jframe.setResizable(true);
 		jframe.setBounds(85, 50, 1366, 768);
 		jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		jframe.setAlwaysOnTop(true);
 		jframe.getContentPane().setBackground(SystemColor.window);
-		jframe.getContentPane().setLayout(null);
+		jframe.getContentPane().setLayout(new BorderLayout());
 		jframe.setVisible(true);
 		
 		Mypanel panel_1 = new Mypanel();
-		panel_1.setBounds(10, 10, 1120, 720);
-		jframe.getContentPane().add(panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1140, 10, 212, 720);
-		jframe.getContentPane().add(panel_2);
+		panel_2.setPreferredSize(new java.awt.Dimension(230, 0));
+		
+		// Create split pane for resizable layout
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel_1, panel_2);
+		splitPane.setDividerLocation(1120);
+		splitPane.setResizeWeight(0.8);
+		jframe.getContentPane().add(splitPane, BorderLayout.CENTER);
 		panel_2.setLayout(null);
 		
-		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier le pave");
-		rdbtnAffichierPave.addItemListener(new ItemListener() {
+		JRadioButton rdbtnAfficherPave = new JRadioButton("Afficher le pave");
+		rdbtnAfficherPave.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(AfficherPave == true)
 					AfficherPave = false;
@@ -92,10 +97,10 @@ public class PavageInterface {
 			}
 		});
 
-		rdbtnAffichierPave.setToolTipText("Afficher le pave");
-		rdbtnAffichierPave.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtnAffichierPave.setBounds(6, 52, 232, 23);
-		panel_2.add(rdbtnAffichierPave);
+		rdbtnAfficherPave.setToolTipText("Afficher le pave");
+		rdbtnAfficherPave.setFont(new Font("Arial", Font.BOLD, 13));
+		rdbtnAfficherPave.setBounds(6, 52, 232, 23);
+		panel_2.add(rdbtnAfficherPave);
 		
 		JLabel lblCouleurDeFond = new JLabel("Couleur de fond du pave :");
 		lblCouleurDeFond.setFont(new Font("Arial", Font.BOLD, 13));
@@ -155,7 +160,7 @@ public class PavageInterface {
 					String filepath ="C:\\WINDOWS\\system32\\SnippingTool.exe";
 					File testFile = new File(filepath);
 					if(!testFile .exists()) {
-						System.out.println("\"snipping tool\" du systeme n'existe pas. Appeler la fonction de capture d'ecran personnalisee.");
+						System.out.println("\"snipping tool\" du système n'existe pas. Appeler la fonction de capture d'écran personnalisée.");
 //						testFile.createNewFile();
 						
 						//Capture d'ecran personnalisee
@@ -166,7 +171,7 @@ public class PavageInterface {
 						
 					}else {
 						   java.lang.Runtime.getRuntime().exec(filepath);
-						   System.out.println("\"snipping tool\" du systeme existe.");
+						   System.out.println("\"snipping tool\" du système existe.");
 					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

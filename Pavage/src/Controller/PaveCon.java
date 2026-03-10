@@ -19,7 +19,7 @@ public class PaveCon {
 	}
 	
 	/**
-	 * CrÈation d'un carrÈ, forme de base qui est par la suite dÈformÈe par l'utilisateur
+	 * Cr√©ation d'un carr√©, forme de base qui est par la suite d√©form√©e par l'utilisateur
 	 */
 	public void carre() {
 		int a = pave.getLongueur_pave()/2;
@@ -51,8 +51,8 @@ public class PaveCon {
 
 	/**	
 	 * Trouver l'indice d'un point dans la liste des points du pavage
-	 * @param Xpos Abscisse du point ‡ rechercher
-	 * @param Ypos OrdonnÈe du point ‡ rechercher
+	 * @param Xpos Abscisse du point √† rechercher
+	 * @param Ypos Ordonn√©e du point √† rechercher
 	 * @return int indice La position du sommet dans la liste si le point existe, -1 sinon
 	 */
 	public int chercherSommetIndice(int Xpos, int Ypos) {
@@ -171,7 +171,7 @@ public class PaveCon {
 						pave.getBaseindice().set(pos_i, i + 1);
 				}
 				
-				pave.getPointList().add(indice, new PointsM(Xpos, Ypos));	//º”»Îµ⁄1∏ˆµ„	Rejoignez le premier point
+				pave.getPointList().add(indice, new PointsM(Xpos, Ypos));	// Ajouter le premier point
 				
 			}
 
@@ -201,9 +201,9 @@ public class PaveCon {
 						}
 						
 						if(tempjurer[2].equals("+"))
-							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//º”»Îµ⁄2∏ˆµ„	Rejoignez le deuxieme point
+							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	// Ajouter le deuxieme point
 						else
-							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//º”»Îµ⁄2∏ˆµ„	Rejoignez le deuxieme point
+							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	// Ajouter le deuxieme point
 					}
 					
 				} else {
@@ -231,7 +231,7 @@ public class PaveCon {
 
 				//La position symetrique est tempindex2
 				if(Integer.parseInt(tempjurer[1]) > indice1) {
-					//L°Øintervalle de variation de symetrie est <tempindex2,tempindex2 + 1>
+					//L'intervalle de variation de symetrie est <tempindex2,tempindex2 + 1>
 					//le changement symetrique index = tempindex2 + 1
 					indice11 = Integer.parseInt(tempjurer[1]) + 2;
 					if(indice11 >= pave.getPointList().size()) {
@@ -282,7 +282,7 @@ public class PaveCon {
 	
 	
 	/**
-	 * Deplacer un point et son 'symÈtrique'
+	 * D√©placer un point et son 'sym√©trique'
 	 * @param indice
 	 * @param Xpos
 	 * @param Ypos
@@ -327,7 +327,7 @@ public class PaveCon {
 	
 	
 	/**
-	 * Supprimer un point et son point 'symetrique'
+	 * Supprimer un point et son point 'sym√©trique'
 	 * @param indice
 	 */
 	public void supprimerPoint(int indice) {
@@ -388,12 +388,12 @@ public class PaveCon {
 	
 	
 	/**
-	 * Deplacement du pave
+	 * D√©placement du pav√©
      * Determiner si le point est dans la zone du polygone
-     * @param pointLon  L'ordonnee du point a evaluer
-     * @param pointLat	L'abscisse du point a avaluer
-     * @param lon 	Tableau d'ordonnees pour chaque sommet de la region
-     * @param lat 	Un tableau d'abscisses pour chaque sommet de la region
+     * @param pointLon  L'ordonn√©e du point √† √©valuer
+     * @param pointLat	L'abscisse du point √† √©valuer
+     * @param lon 	Tableau d'ordonn√©es pour chaque sommet de la r√©gion
+     * @param lat 	Un tableau d'abscisses pour chaque sommet de la r√©gion
      * @return true/false
      */
     public boolean isInPolygon(int pointLon, int pointLat, int[] lon, int[] lat) {
@@ -413,8 +413,8 @@ public class PaveCon {
     
     /**
      * "isInPolygon" - fonction d'appel
-     * @param point 	Les coordonnees horizontales et verticales du point a juger
-     * @param polygon 	Ensemble de coordonnees de sommet
+     * @param point 	Les coordonn√©es horizontales et verticales du point √† juger
+     * @param polygon 	Ensemble de coordonn√©es de sommet
      * @return 	true/false
      */
     private boolean check(Point2D.Double point, List<Point2D.Double> polygon) {
