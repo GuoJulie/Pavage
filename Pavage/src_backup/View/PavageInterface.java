@@ -1,6 +1,5 @@
 package View;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,9 +9,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import Controller.PaveCon;
@@ -69,104 +65,88 @@ public class PavageInterface {
 	private void initialize() {
 		jframe = new JFrame();
 		jframe.setTitle("Pavage");
-		jframe.setResizable(true);
+		jframe.setResizable(false);
 		jframe.setBounds(85, 50, 1366, 768);
 		jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		jframe.setAlwaysOnTop(true);
 		jframe.getContentPane().setBackground(SystemColor.window);
-		jframe.getContentPane().setLayout(new BorderLayout(10, 10));
+		jframe.getContentPane().setLayout(null);
 		jframe.setVisible(true);
 		
-		final Mypanel panel_1 = new Mypanel();
-		panel_1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		jframe.getContentPane().add(panel_1, BorderLayout.CENTER);
+		Mypanel panel_1 = new Mypanel();
+		panel_1.setBounds(10, 10, 1120, 720);
+		jframe.getContentPane().add(panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setPreferredSize(new Dimension(240, 0));
-		panel_2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
-		jframe.getContentPane().add(panel_2, BorderLayout.EAST);
+		panel_2.setBounds(1140, 10, 212, 720);
+		jframe.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
 		
-		JRadioButton rdbtnAffichierPave = new JRadioButton("Afficher le pavé");
+		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier le pave");
 		rdbtnAffichierPave.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				AfficherPave = (e.getStateChange() == ItemEvent.SELECTED);
-				panel_1.repaint();
+				if(AfficherPave == true)
+					AfficherPave = false;
+				else
+					AfficherPave = true;
 			}
 		});
 
-		rdbtnAffichierPave.setToolTipText("Afficher le pavé");
+		rdbtnAffichierPave.setToolTipText("Afficher le pave");
 		rdbtnAffichierPave.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtnAffichierPave.setAlignmentX(JRadioButton.LEFT_ALIGNMENT);
+		rdbtnAffichierPave.setBounds(6, 52, 232, 23);
 		panel_2.add(rdbtnAffichierPave);
 		
-		panel_2.add(Box.createVerticalStrut(20));
-		
-		JLabel lblCouleurDeFond = new JLabel("Couleur de fond du pavé :");
+		JLabel lblCouleurDeFond = new JLabel("Couleur de fond du pave :");
 		lblCouleurDeFond.setFont(new Font("Arial", Font.BOLD, 13));
-		lblCouleurDeFond.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		lblCouleurDeFond.setBounds(10, 127, 192, 15);
 		panel_2.add(lblCouleurDeFond);
 		
-		panel_2.add(Box.createVerticalStrut(10));
 		
-		JPanel colorPanel1 = new JPanel();
-		colorPanel1.setLayout(new BoxLayout(colorPanel1, BoxLayout.X_AXIS));
-		colorPanel1.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 		
-		final JPanel panelCouleur_1 = new JPanel();
-		panelCouleur_1.setPreferredSize(new Dimension(87, 23));
+		JPanel panelCouleur_1 = new JPanel();
+		panelCouleur_1.setBounds(115, 152, 87, 23);
 		panelCouleur_1.setBackground(c1);
+		panel_2.add(panelCouleur_1);
+		
+		JPanel panelCouleur_2 = new JPanel();
+		panelCouleur_2.setBounds(115, 188, 87, 23);
+		panelCouleur_2.setBackground(c2);
+		panel_2.add(panelCouleur_2);
 		
 		JButton btnCouleur_1 = new JButton("couleur 1");
 		btnCouleur_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();
-				Color color = chooser.showDialog(panel_1,"Couleur de fond du pavé",Color.lightGray );
-			    if (color != null)
-			    	c1 = color;  
-			    panelCouleur_1.setBackground(c1);
-			    panel_1.repaint(); 
+				Color color = chooser.showDialog(panelCouleur_1,"Couleur de fond du pave",Color.lightGray );
+	            if (color != null)
+	            	c1 = color;  
+	            panelCouleur_1.setBackground(c1);
+	            new Mypanel(); 
 			}
 		});
 		btnCouleur_1.setForeground(Color.BLACK);
 		btnCouleur_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCouleur_1.setBackground(SystemColor.scrollbar);
-		colorPanel1.add(btnCouleur_1);
-		
-		colorPanel1.add(Box.createHorizontalStrut(10));
-		colorPanel1.add(panelCouleur_1);
-		
-		panel_2.add(colorPanel1);
-		panel_2.add(Box.createVerticalStrut(10));
-		
-		JPanel colorPanel2 = new JPanel();
-		colorPanel2.setLayout(new BoxLayout(colorPanel2, BoxLayout.X_AXIS));
-		colorPanel2.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-		
-		final JPanel panelCouleur_2 = new JPanel();
-		panelCouleur_2.setPreferredSize(new Dimension(87, 23));
-		panelCouleur_2.setBackground(c2);
+		btnCouleur_1.setBounds(6, 152, 99, 23);
+		panel_2.add(btnCouleur_1);
 		
 		JButton btnCouleur_2 = new JButton("couleur 2");
 		btnCouleur_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JColorChooser chooser = new JColorChooser();
-			    Color color = chooser.showDialog(panel_1,"Couleur de fond du pavé",Color.lightGray );
-			    if (color != null)
-			    	c2 = color;  
-			    panelCouleur_2.setBackground(c2);
-			    panel_1.repaint(); 
+	            Color color = chooser.showDialog(panelCouleur_2,"Couleur de fond du pave",Color.lightGray );
+	            if (color != null)
+	            	c2 = color;  
+	            panelCouleur_2.setBackground(c2);
+	            new Mypanel(); 
 			}
 		});
 		btnCouleur_2.setForeground(Color.BLACK);
 		btnCouleur_2.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCouleur_2.setBackground(SystemColor.scrollbar);
-		colorPanel2.add(btnCouleur_2);
-		
-		colorPanel2.add(Box.createHorizontalStrut(10));
-		colorPanel2.add(panelCouleur_2);
-		
-		panel_2.add(colorPanel2);
-		panel_2.add(Box.createVerticalStrut(30));
+		btnCouleur_2.setBounds(6, 188, 99, 23);
+		panel_2.add(btnCouleur_2);
 		
 		JButton btnCapture = new JButton("Capture");
 		btnCapture.addActionListener(new ActionListener() {
@@ -174,16 +154,22 @@ public class PavageInterface {
 				try {
 					String filepath ="C:\\WINDOWS\\system32\\SnippingTool.exe";
 					File testFile = new File(filepath);
-					if(!testFile.exists()) {
-						System.out.println("\"snipping tool\" du système n'existe pas. Appeler la fonction de capture d'écran personnalisée.");
+					if(!testFile .exists()) {
+						System.out.println("\"snipping tool\" du systeme n'existe pas. Appeler la fonction de capture d'ecran personnalisee.");
+//						testFile.createNewFile();
+						
+						//Capture d'ecran personnalisee
+						//Fonctionnement en plein ecran
 						RectD rd = new RectD();
 					    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 					    gd.setFullScreenWindow(rd);
+						
 					}else {
 						   java.lang.Runtime.getRuntime().exec(filepath);
-						   System.out.println("\"snipping tool\" du système existe.");
+						   System.out.println("\"snipping tool\" du systeme existe.");
 					}
 				} catch (IOException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -192,11 +178,8 @@ public class PavageInterface {
 		btnCapture.setForeground(Color.BLACK);
 		btnCapture.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCapture.setBackground(SystemColor.scrollbar);
-		btnCapture.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnCapture.getPreferredSize().height));
-		btnCapture.setAlignmentX(JButton.LEFT_ALIGNMENT);
+		btnCapture.setBounds(6, 282, 196, 23);
 		panel_2.add(btnCapture);
-		
-		panel_2.add(Box.createVerticalStrut(10));
 		
 		JButton btnEnregistrerPavage = new JButton("Enregistrer Pavage");
 		btnEnregistrerPavage.setToolTipText("Enregistrer Pavage");
@@ -206,9 +189,11 @@ public class PavageInterface {
 				try {
 					myImage = new Robot().createScreenCapture(
 							new Rectangle(jframe.getX()+17, jframe.getY()+40, panel_1.getWidth(), panel_1.getHeight()));
+//					private String path = System.getProperty("user.dir"); //dans le repertoire courant du projet
+//					ImageIO.write(myImage, "jpg", new File(path + "/pavage.jpg"));
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddHHmmss");
 					String name = "Pavage_" + sdf.format(new Date());
-					File path = FileSystemView.getFileSystemView().getHomeDirectory();
+					File path = FileSystemView.getFileSystemView().getHomeDirectory(); //Emplacement du bureau
 					String format = "jpg";
 					File file = new File(path + File.separator + name + "." + format);
 					ImageIO.write(myImage, format, file);
@@ -222,14 +207,13 @@ public class PavageInterface {
 		btnEnregistrerPavage.setForeground(Color.BLACK);
 		btnEnregistrerPavage.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEnregistrerPavage.setBackground(SystemColor.scrollbar);
-		btnEnregistrerPavage.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnEnregistrerPavage.getPreferredSize().height));
-		btnEnregistrerPavage.setAlignmentX(JButton.LEFT_ALIGNMENT);
+		btnEnregistrerPavage.setBounds(6, 315, 196, 23);
 		panel_2.add(btnEnregistrerPavage);
 		
-		panel_2.add(Box.createVerticalGlue());
+		
+		
 	}
 	
-
 
 	
 	static class Mypanel extends JPanel{
@@ -257,7 +241,9 @@ public class PavageInterface {
 			int startcentrey = pavem.getCentre().getYpos();
 			int basestartcentrex = pavem.getCentre().getXpos();
 			int basestartcentrey = pavem.getCentre().getYpos();
+			int ecart, ecart1 = 0;
 			Color c = null;
+			String tempjurer = null;
 			
 			for(int i = 0; i < cote; i++) {
 				x[i] = pavem.getPointList().get(i).getXpos();
@@ -269,11 +255,15 @@ public class PavageInterface {
 			}
 			
 			
+			
+			
 
+			
+			
 			
 			for(int k = 0; k < 4; k++) {
 				if(k == 0) {
-					c = c1;
+					c = c1;// Changer la couleur // 0. Meme dessiner <vert> (0 debut) + ligne impaire (debut a 1 ligne)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i];
 						starty[i] = basestarty[i];
@@ -284,7 +274,7 @@ public class PavageInterface {
 					}
 				}
 				else if(k == 1){
-					c = c2;
+					c = c2;	// Change la couleur / / 1. Odd to draw <Jaune> (1 debut) + lignes impaires (commencant a 1 ligne)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i] - longueur;
 						starty[i] = basestarty[i];
@@ -295,7 +285,7 @@ public class PavageInterface {
 					}
 				}
 				else if(k == 2){
-					c = c1;
+					c = c1;	//Changer de couleur // 2. Dessin impair <vert> (1 debut) + ligne paire (debut 0)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i] - longueur;
 						starty[i] = basestarty[i] - longueur;
@@ -306,7 +296,7 @@ public class PavageInterface {
 					}
 				}
 				else if(k == 3){
-					c = c2;
+					c = c2;	//Changer de couleur // 3. Meme dessiner <jaune> (0 debut) + ligne paire (debut 0)
 					for(int i = 0; i < cote; i++) {
 						startx[i] = basestartx[i];
 						starty[i] = basestarty[i] - longueur;
@@ -331,7 +321,9 @@ public class PavageInterface {
 							g2d.drawPolygon(p);
 						}
 						
+						repaint();
 					} catch (Exception e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -363,7 +355,6 @@ public class PavageInterface {
 	
 	
 	
-	
 	class RectD extends JFrame{
 		
 		private static final long serialVersionUID = 1L;
@@ -385,6 +376,7 @@ public class PavageInterface {
 		public RectD(){
 			snapshot();
 			setVisible(true);
+			//setSize(d);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			
 			this.addMouseListener(new MouseAdapter(){
@@ -393,7 +385,9 @@ public class PavageInterface {
 					orgy=e.getY();
 				}
 			});
+			//compteur de mouvement de souris
 			this.addMouseMotionListener(new MouseMotionAdapter() {
+				//Souris glisser evenement
 				public void mouseDragged(MouseEvent e) {
 					endx=e.getX();
 					endy=e.getY();
@@ -412,7 +406,9 @@ public class PavageInterface {
 			
 			this.addKeyListener(new KeyAdapter() {
 				@Override
+				//Bouton de liberation
 				public void keyReleased(KeyEvent e){
+					//Appuyez sur Esc pour quitter
 					if(e.getKeyCode()==27){
 						saveToFile();
 						System.exit(0);
