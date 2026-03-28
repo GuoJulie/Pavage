@@ -19,7 +19,7 @@ public class PaveCon {
 	}
 	
 	/**
-	 * Création d'un carré, forme de base qui est par la suite déformée par l'utilisateur
+	 * Cr\u00e9ation d'un carr\u00e9, forme de base qui est par la suite d\u00e9form\u00e9e par l'utilisateur
 	 */
 	public void carre() {
 		int a = pave.getLongueur_pave()/2;
@@ -38,11 +38,11 @@ public class PaveCon {
 		int Sym_ver_x = (pave.getPointList().get(pave.getBaseindice().get(0)).getXpos()+pave.getPointList().get(pave.getBaseindice().get(3)).getXpos())/2;
 		pave.setCentre(new PointsM(Sym_ver_x, Sym_hor_y));
 		
-		//Axe de symetrie transversal initial (Peut etre omis)
+		//Axe de sym\u00e9trie transversal initial (Peut etre omis)
 		pave.getSym_hor().add(new PointsM(-2*pave.getLongueur_pave() + Sym_ver_x, Sym_hor_y));
 		pave.getSym_hor().add(new PointsM(2*pave.getLongueur_pave() + Sym_ver_x, Sym_hor_y));
 		
-		//Axe de symetrie longitudinal initial (Peut etre omis)
+		//Axe de sym\u00e9trie longitudinal initial (Peut etre omis)
 		pave.getSym_ver().add(new PointsM(Sym_ver_x, -2*pave.getLongueur_pave() + Sym_hor_y));
 		pave.getSym_ver().add(new PointsM(Sym_ver_x, 2*pave.getLongueur_pave() + Sym_hor_y));
 		
@@ -51,8 +51,8 @@ public class PaveCon {
 
 	/**	
 	 * Trouver l'indice d'un point dans la liste des points du pavage
-	 * @param Xpos Abscisse du point à rechercher
-	 * @param Ypos Ordonnée du point à rechercher
+	 * @param Xpos Abscisse du point \u00e0 rechercher
+	 * @param Ypos Ordonn\u00e9e du point \u00e0 rechercher
 	 * @return int indice La position du sommet dans la liste si le point existe, -1 sinon
 	 */
 	public int chercherSommetIndice(int Xpos, int Ypos) {
@@ -171,7 +171,7 @@ public class PaveCon {
 						pave.getBaseindice().set(pos_i, i + 1);
 				}
 				
-				pave.getPointList().add(indice, new PointsM(Xpos, Ypos));	//¼ÓÈëµÚ1¸öµã	Rejoignez le premier point
+				pave.getPointList().add(indice, new PointsM(Xpos, Ypos));	//Ajouter le premier point
 				
 			}
 
@@ -201,13 +201,13 @@ public class PaveCon {
 						}
 						
 						if(tempjurer[2].equals("+"))
-							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos + pave.getLongueur_pave()));	//Ajouter le deuxieme point
 						else
-							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//¼ÓÈëµÚ2¸öµã	Rejoignez le deuxieme point
+							pave.getPointList().add(indice11, new PointsM(Xpos, Ypos - pave.getLongueur_pave()));	//Ajouter le deuxieme point
 					}
 					
 				} else {
-					//L'intervalle de variation de sym'trie est <tempindex1,tempindex1 + 1>
+					//L'intervalle de variation de sym\u00e9trie est <tempindex1,tempindex1 + 1>
 					//le changement symetrique index = tempindex1 + 1
 					indice11 = Integer.parseInt(tempjurer[1]) + 1;
 					
@@ -231,7 +231,7 @@ public class PaveCon {
 
 				//La position symetrique est tempindex2
 				if(Integer.parseInt(tempjurer[1]) > indice1) {
-					//L¡¯intervalle de variation de symetrie est <tempindex2,tempindex2 + 1>
+					//L'intervalle de variation de sym\u00e9trie est <tempindex2,tempindex2 + 1>
 					//le changement symetrique index = tempindex2 + 1
 					indice11 = Integer.parseInt(tempjurer[1]) + 2;
 					if(indice11 >= pave.getPointList().size()) {
@@ -282,7 +282,7 @@ public class PaveCon {
 	
 	
 	/**
-	 * Deplacer un point et son 'symétrique'
+	 * Deplacer un point et son 'sym\u00e9trique'
 	 * @param indice
 	 * @param Xpos
 	 * @param Ypos
