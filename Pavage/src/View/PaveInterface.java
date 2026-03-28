@@ -17,8 +17,12 @@ import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.SystemColor;
@@ -37,11 +41,16 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import Model.PaveM;
 import Model.PointsM;
+import Network.PavageClient;
+import Network.PaveData;
+import Network.DataConverter;
 
 public class PaveInterface {
 
 	private JFrame jframe;
 	private JTextArea textAreaRemarque;
+	private static PavageClient client;
+	private static String userId = "default_user";
 	
 	static int radiochoix = 0;
 	static private boolean statepolygon;	//Determine si le point est a l'interieur du polygone
@@ -88,8 +97,36 @@ public class PaveInterface {
 	 * Create the application.
 	 */
 	public PaveInterface() {
-		
 		initialize();
+		setupServerConnection();
+	}
+	
+	private static void setupServerConnection() {
+		try {
+			client = new PavageClient("localhost", 12345);
+			System.out.println("Connected to server");
+		} catch (Exception e) {
+			System.out.println("Could not connect to server: " + e.getMessage());
+		}
+	}
+	
+	private static void saveToServer() {
+		if (client != null && pavem != null) {
+			PaveData data = DataConverter.toPaveData(pavem, userId);
+			String result = client.savePaveData(data);
+			System.out.println("Save result: " + result);
+		}
+	}
+	
+	private static void loadFromServer() {
+		if (client != null) {
+			PaveData latest = client.getLatestPaveData(userId);
+			if (latest != null) {
+				pavem = DataConverter.toPaveM(latest);
+				pave = new PaveCon(pavem);
+				System.out.println("Loaded from server");
+			}
+		}
 	}
 
 	/**
@@ -98,109 +135,135 @@ public class PaveInterface {
 	private void initialize() {
 		jframe = new JFrame();
 		jframe.setTitle("Pave");
-		jframe.setResizable(false);
-		jframe.setBounds(85, 50, 1366, 768);
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setVisible(true);
-		jframe.getContentPane().setBackground(SystemColor.window);
-		jframe.getContentPane().setLayout(null);
+		jframe.setResizable(true);
+jframe.setBounds(85, 50, 1366, 768);
+jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+jframe.setVisible(true);
+jframe.getContentPane().setBackground(SystemColor.window);
+jframe.getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 		
 		//panel_2: Zone d'option Pave
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1108, 10, 244, 720);
-		jframe.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+JPanel panel_2 = new JPanel();
+panel_2.setLayout(new GridBagLayout());
+javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(panel_2);
+scrollPane.setPreferredSize(new java.awt.Dimension(230, 720));
+jframe.getContentPane().add(scrollPane, java.awt.BorderLayout.EAST);
 		
-		JLabel lbl_title_changer = new JLabel("D¨¦formation de la Pave");
-		lbl_title_changer.setForeground(Color.BLUE);
-		lbl_title_changer.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_title_changer.setFont(new Font("Arial", Font.BOLD, 15));
-		lbl_title_changer.setBounds(6, 10, 232, 23);
-		panel_2.add(lbl_title_changer);
+		JLabel lbl_title_changer = new JLabel("D\u00e9formation de la Pave");
+lbl_title_changer.setForeground(Color.BLUE);
+lbl_title_changer.setHorizontalAlignment(SwingConstants.CENTER);
+lbl_title_changer.setFont(new Font("Arial", Font.BOLD, 15));
+GridBagConstraints gbc_lbl_title_changer = new GridBagConstraints();
+gbc_lbl_title_changer.insets = new Insets(10, 5, 5, 5);
+gbc_lbl_title_changer.gridx = 0;
+gbc_lbl_title_changer.gridy = 0;
+gbc_lbl_title_changer.fill = GridBagConstraints.HORIZONTAL;
+gbc_lbl_title_changer.weightx = 1.0;
+panel_2.add(lbl_title_changer, gbc_lbl_title_changer);
 		
-		JRadioButton rdbtn0 = new JRadioButton("Aucune op¨¦ration");
-		rdbtn0.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 0;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les points du pav¨¦ initial sont en bleu, \r\n" + 
-						"Les points qui ont ¨¦t¨¦ ajout¨¦s sur le pav¨¦ sont en rouge.");
-			}
-		});
-		rdbtn0.setSelected(true);
-		rdbtn0.setToolTipText("Aucune op¨¦ration");
-		rdbtn0.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn0.setBounds(6, 54, 232, 23);
-		panel_2.add(rdbtn0);
+		JRadioButton rdbtn0 = new JRadioButton("Aucune op\u00e9ration");
+rdbtn0.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 0;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("Les points du pav\u00e9 initial sont en bleu, \r\n" + 
+			"Les points qui ont \u00e9t\u00e9 ajout\u00e9s sur le pav\u00e9 sont en rouge.");
+	}
+});
+rdbtn0.setSelected(true);
+rdbtn0.setToolTipText("Aucune op\u00e9ration");
+rdbtn0.setFont(new Font("Arial", Font.BOLD, 13));
+GridBagConstraints gbc_rdbtn0 = new GridBagConstraints();
+gbc_rdbtn0.insets = new Insets(5, 5, 5, 5);
+gbc_rdbtn0.gridx = 0;
+gbc_rdbtn0.gridy = 1;
+gbc_rdbtn0.anchor = GridBagConstraints.WEST;
+panel_2.add(rdbtn0, gbc_rdbtn0);
 		
-		JRadioButton rdbtn1 = new JRadioButton("D¨¦placer la pave");
-		rdbtn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 1;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("S'il vous plait d¨¦placer votre souris sur la zone de la pav¨¦ et faire-la glisser.");
-			}
-		});
-		rdbtn1.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn1.setToolTipText("D¨¦placer la pave");
-		rdbtn1.setBounds(6, 79, 232, 23);
-		panel_2.add(rdbtn1);
+		JRadioButton rdbtn1 = new JRadioButton("D\u00e9placer la pave");
+rdbtn1.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 1;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("S'il vous plait d\u00e9placer votre souris sur la zone de la pav\u00e9 et faire-la glisser.");
+	}
+});
+rdbtn1.setFont(new Font("Arial", Font.BOLD, 13));
+rdbtn1.setToolTipText("D\u00e9placer la pave");
+GridBagConstraints gbc_rdbtn1 = new GridBagConstraints();
+gbc_rdbtn1.insets = new Insets(5, 5, 5, 5);
+gbc_rdbtn1.gridx = 0;
+gbc_rdbtn1.gridy = 2;
+gbc_rdbtn1.anchor = GridBagConstraints.WEST;
+panel_2.add(rdbtn1, gbc_rdbtn1);
 		
-		JRadioButton rdbtn2 = new JRadioButton("D¨¦placer le sommet");
-		rdbtn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 2;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("S'il vous plait d¨¦placer votre souris au sommet et faire-la glisser." + "\n" + "\n");
-				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas ¨ºtre d¨¦plac¨¦!");
-			}
-		});
-		rdbtn2.setToolTipText("D¨¦placer le sommet");
-		rdbtn2.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn2.setBounds(6, 104, 232, 23);
-		panel_2.add(rdbtn2);
+		JRadioButton rdbtn2 = new JRadioButton("D\u00e9placer le sommet");
+rdbtn2.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 2;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("S'il vous plait d\u00e9placer votre souris au sommet et faire-la glisser." + "\n" + "\n");
+		textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas \u00eatre d\u00e9plac\u00e9!");
+	}
+});
+rdbtn2.setToolTipText("D\u00e9placer le sommet");
+rdbtn2.setFont(new Font("Arial", Font.BOLD, 13));
+GridBagConstraints gbc_rdbtn2 = new GridBagConstraints();
+gbc_rdbtn2.insets = new Insets(5, 5, 5, 5);
+gbc_rdbtn2.gridx = 0;
+gbc_rdbtn2.gridy = 3;
+gbc_rdbtn2.anchor = GridBagConstraints.WEST;
+panel_2.add(rdbtn2, gbc_rdbtn2);
 		
 		JRadioButton rdbtn3 = new JRadioButton("Augmenter le sommet");
-		rdbtn3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 3;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("1. S'il vous plait d¨¦placer votre souris sur un cot¨¦ et faire un clic gauche pour s¨¦lectionner le cot¨¦ que vous souhaitez modifier." + "\n"+ "\n");
-				textAreaRemarque.append("2. S'il vous plait d¨¦placer votre souris sur une position du panneau et faire un clic droit pour cr¨¦er un nouveau sommet.");
-				
-			}
-		});
-		rdbtn3.setToolTipText("Augmenter le sommet");
-		rdbtn3.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn3.setBounds(6, 129, 232, 23);
-		panel_2.add(rdbtn3);
+rdbtn3.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 3;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("1. S'il vous plait d\u00e9placer votre souris sur un cot\u00e9 et faire un clic gauche pour s\u00e9lectionner le cot\u00e9 que vous souhaitez modifier." + "\n"+ "\n");
+		textAreaRemarque.append("2. S'il vous plait d\u00e9placer votre souris sur une position du panneau et faire un clic droit pour cr\u00e9er un nouveau sommet.");
+		
+	}
+});
+rdbtn3.setToolTipText("Augmenter le sommet");
+rdbtn3.setFont(new Font("Arial", Font.BOLD, 13));
+GridBagConstraints gbc_rdbtn3 = new GridBagConstraints();
+gbc_rdbtn3.insets = new Insets(5, 5, 5, 5);
+gbc_rdbtn3.gridx = 0;
+gbc_rdbtn3.gridy = 4;
+gbc_rdbtn3.anchor = GridBagConstraints.WEST;
+panel_2.add(rdbtn3, gbc_rdbtn3);
 		
 		JRadioButton rdbtn4 = new JRadioButton("Supprimer un seul sommet");
-		rdbtn4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 4;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				
-				textAreaRemarque.setText("S'il vous plait d¨¦placer votre souris au sommet et faire-la glisser." + "\n" + "\n");
-				textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas ¨ºtre supprim¨¦!");
-			}
-		});
-		rdbtn4.setToolTipText("Supprimer un seul sommet");
-		rdbtn4.setFont(new Font("Arial", Font.BOLD, 13));
-		rdbtn4.setBounds(6, 154, 232, 23);
-		panel_2.add(rdbtn4);
+rdbtn4.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 4;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
 		
-		//ÉèÖÃµ¥Ñ¡	Mettre en place une seule s¨¦lection
+		textAreaRemarque.setText("S'il vous plait d\u00e9placer votre souris au sommet et faire-la glisser." + "\n" + "\n");
+		textAreaRemarque.append("Attention: Le sommet initial de base de Pave ne peut pas \u00eatre supprim\u00e9!");
+	}
+});
+rdbtn4.setToolTipText("Supprimer un seul sommet");
+rdbtn4.setFont(new Font("Arial", Font.BOLD, 13));
+GridBagConstraints gbc_rdbtn4 = new GridBagConstraints();
+gbc_rdbtn4.insets = new Insets(5, 5, 5, 5);
+gbc_rdbtn4.gridx = 0;
+gbc_rdbtn4.gridy = 5;
+gbc_rdbtn4.anchor = GridBagConstraints.WEST;
+panel_2.add(rdbtn4, gbc_rdbtn4);
+		
+		// Mettre en place une seule s\u00e9lection
 		ButtonGroup buttonGroup1 = new ButtonGroup();
 		buttonGroup1.add(rdbtn0);
 		buttonGroup1.add(rdbtn1);
@@ -209,73 +272,89 @@ public class PaveInterface {
 		buttonGroup1.add(rdbtn4);
 		
 		
-		//Définir les boutons pour les axes de symetrie
+		//D?finir les boutons pour les axes de symetrie
 		
-		JRadioButton btnSym1 = new JRadioButton("Aucune symétrie");
-		btnSym1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 5;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations ne sont pas impactées par des symétries");
-			}
-		});
-		btnSym1.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym1.setToolTipText("Aucune symétrie");
-		btnSym1.setBounds(6, 189, 232, 23);
-		btnSym1.setSelected(true);
-		panel_2.add(btnSym1);
-		
-
-		JRadioButton btnSym2 = new JRadioButton("Symetrie horizontale");
-		btnSym2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 6;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations seront effectuées d'après un axe de symétrie horizontale");
-			}
-		});
-		btnSym2.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym2.setToolTipText("Symetrie horizontale");
-		btnSym2.setBounds(6, 214, 232, 23);
-		panel_2.add(btnSym2);
+		JRadioButton btnSym1 = new JRadioButton("Aucune sym\u00e9trie");
+btnSym1.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 5;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("Les d\u00e9formations ne sont pas impact\u00e9es par des sym\u00e9tries");
+	}
+});
+btnSym1.setFont(new Font("Arial", Font.BOLD, 13));
+btnSym1.setToolTipText("Aucune sym\u00e9trie");
+btnSym1.setSelected(true);
+GridBagConstraints gbc_btnSym1 = new GridBagConstraints();
+gbc_btnSym1.insets = new Insets(15, 5, 5, 5);
+gbc_btnSym1.gridx = 0;
+gbc_btnSym1.gridy = 6;
+gbc_btnSym1.anchor = GridBagConstraints.WEST;
+panel_2.add(btnSym1, gbc_btnSym1);
 		
 
-		JRadioButton btnSym3 = new JRadioButton("Symetrie verticale");
-		btnSym3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 7;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations seront effectuées d'après une symétrie verticale");
-			}
-		});
-		btnSym3.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym3.setToolTipText("Symetrie horizontale");
-		btnSym3.setBounds(6, 239, 232, 23);
-		panel_2.add(btnSym3);
+		JRadioButton btnSym2 = new JRadioButton("Sym\u00e9trie horizontale");
+btnSym2.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 6;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("Les d\u00e9formations seront effectu\u00e9es d'apr\u00e8s un axe de sym\u00e9trie horizontale");
+	}
+});
+btnSym2.setFont(new Font("Arial", Font.BOLD, 13));
+btnSym2.setToolTipText("Symetrie horizontale");
+GridBagConstraints gbc_btnSym2 = new GridBagConstraints();
+gbc_btnSym2.insets = new Insets(5, 5, 5, 5);
+gbc_btnSym2.gridx = 0;
+gbc_btnSym2.gridy = 7;
+gbc_btnSym2.anchor = GridBagConstraints.WEST;
+panel_2.add(btnSym2, gbc_btnSym2);
 		
-		JRadioButton btnSym4 = new JRadioButton("Double symetrie");
-		btnSym4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				radiochoix = 8;
-				statepolygon = false;
-				statesommet = false;
-				statecote = false;
-				textAreaRemarque.setText("Les déformations seront effectuées d'après une symétrie horizontale et verticale");
-			}
-		});
-		btnSym4.setFont(new Font("Arial", Font.BOLD, 13));
-		btnSym4.setToolTipText("Double symétrie");
-		btnSym4.setBounds(6, 264, 232, 23);
-		panel_2.add(btnSym4);
+
+		JRadioButton btnSym3 = new JRadioButton("Sym\u00e9trie verticale");
+btnSym3.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 7;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("Les d\u00e9formations seront effectu\u00e9es d'apr\u00e8s une sym\u00e9trie verticale");
+	}
+});
+btnSym3.setFont(new Font("Arial", Font.BOLD, 13));
+btnSym3.setToolTipText("Sym\u00e9trie verticale");
+GridBagConstraints gbc_btnSym3 = new GridBagConstraints();
+gbc_btnSym3.insets = new Insets(5, 5, 5, 5);
+gbc_btnSym3.gridx = 0;
+gbc_btnSym3.gridy = 8;
+gbc_btnSym3.anchor = GridBagConstraints.WEST;
+panel_2.add(btnSym3, gbc_btnSym3);
+		
+		JRadioButton btnSym4 = new JRadioButton("Double sym\u00e9trie");
+btnSym4.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		radiochoix = 8;
+		statepolygon = false;
+		statesommet = false;
+		statecote = false;
+		textAreaRemarque.setText("Les d\u00e9formations seront effectu\u00e9es d'apr\u00e8s une sym\u00e9trie horizontale et verticale");
+	}
+});
+btnSym4.setFont(new Font("Arial", Font.BOLD, 13));
+btnSym4.setToolTipText("Double sym\u00e9trie");
+GridBagConstraints gbc_btnSym4 = new GridBagConstraints();
+gbc_btnSym4.insets = new Insets(5, 5, 5, 5);
+gbc_btnSym4.gridx = 0;
+gbc_btnSym4.gridy = 9;
+gbc_btnSym4.anchor = GridBagConstraints.WEST;
+panel_2.add(btnSym4, gbc_btnSym4);
 		
 		
-		//Création d'un groupe de boutons pour la selection de symétrie
+		//Cr\u00e9ation d'un groupe de boutons pour la selection de sym\u00e9trie
 		ButtonGroup buttonGroup2 = new ButtonGroup();
 		buttonGroup2.add(btnSym1);
 		buttonGroup2.add(btnSym2);
@@ -283,7 +362,7 @@ public class PaveInterface {
 		buttonGroup2.add(btnSym4);
 		
 		
-		JButton buttonTransfer = new JButton("Pav¨¦ --> Pavage");
+		JButton buttonTransfer = new JButton("Pav\u00e9 --> Pavage");
 		buttonTransfer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PavageInterface PaveTransfer = new PavageInterface( pavem);
@@ -292,13 +371,22 @@ public class PaveInterface {
 		buttonTransfer.setFont(new Font("Arial", Font.BOLD, 14));
 		buttonTransfer.setForeground(Color.WHITE);
 		buttonTransfer.setBackground(new Color(153, 51, 51));
-		buttonTransfer.setBounds(6, 365, 232, 43);
-		panel_2.add(buttonTransfer);
+		GridBagConstraints gbc_buttonTransfer = new GridBagConstraints();
+		gbc_buttonTransfer.insets = new Insets(15, 5, 5, 5);
+		gbc_buttonTransfer.gridx = 0;
+		gbc_buttonTransfer.gridy = 10;
+		gbc_buttonTransfer.fill = GridBagConstraints.HORIZONTAL;
+		gbc_buttonTransfer.weightx = 1.0;
+		panel_2.add(buttonTransfer, gbc_buttonTransfer);
 		
 		JLabel lblRemarque = new JLabel("Remarque :");
 		lblRemarque.setFont(new Font("Arial", Font.BOLD, 13));
-		lblRemarque.setBounds(6, 419, 91, 15);
-		panel_2.add(lblRemarque);
+		GridBagConstraints gbc_lblRemarque = new GridBagConstraints();
+		gbc_lblRemarque.insets = new Insets(15, 5, 5, 5);
+		gbc_lblRemarque.gridx = 0;
+		gbc_lblRemarque.gridy = 11;
+		gbc_lblRemarque.anchor = GridBagConstraints.WEST;
+		panel_2.add(lblRemarque, gbc_lblRemarque);
 		
 		
 		//panel_1: la zone de modification du pave
@@ -332,29 +420,34 @@ public class PaveInterface {
 						
 						if(recordindicecote != -1) {
 							pave.addPoint(recordindicecote, sourisx, sourisy);
-		        			updatexy();	        			
-		        			new Mypanel();
-		        			recordindicecote = -1;
+							updatexy();			        							
+							new Mypanel();
+							recordindicecote = -1;
 						}
 					}
 				}
 				
 			}
 		});
-		panel_1.setBounds(10, 10, 1091, 720);
 		panel_1.addMouseMotionListener(panel_1);
-		jframe.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		jframe.getContentPane().add(panel_1, java.awt.BorderLayout.CENTER);
 		
 		
 		textAreaRemarque = new JTextArea();
 		textAreaRemarque.setFont(new Font("Arial", Font.PLAIN, 15));
 		textAreaRemarque.setBackground(SystemColor.inactiveCaptionBorder);
-		textAreaRemarque.setBounds(6, 444, 228, 266);
 		textAreaRemarque.setLineWrap(true);
-		textAreaRemarque.setText("Les points du pav¨¦ initial sont en bleu, \r\n" + 
-				"Les points qui ont ¨¦t¨¦ ajout¨¦s sur le pav¨¦ sont en rouge.");
-		panel_2.add(textAreaRemarque);
+		textAreaRemarque.setRows(10);
+		textAreaRemarque.setText("Les points du pav\u00e9 initial sont en bleu, \r\n" + 
+			"Les points qui ont \u00e9t\u00e9 ajout\u00e9s sur le pav\u00e9 sont en rouge.");
+		GridBagConstraints gbc_textAreaRemarque = new GridBagConstraints();
+		gbc_textAreaRemarque.insets = new Insets(5, 5, 10, 5);
+		gbc_textAreaRemarque.gridx = 0;
+		gbc_textAreaRemarque.gridy = 12;
+		gbc_textAreaRemarque.fill = GridBagConstraints.BOTH;
+		gbc_textAreaRemarque.weightx = 1.0;
+		gbc_textAreaRemarque.weighty = 1.0;
+		panel_2.add(textAreaRemarque, gbc_textAreaRemarque);
 		
 		JButton btnEnregistrerPave = new JButton("Enregistrer Pave");
 		btnEnregistrerPave.addActionListener(new ActionListener() {
@@ -382,8 +475,13 @@ public class PaveInterface {
 		btnEnregistrerPave.setForeground(Color.BLACK);
 		btnEnregistrerPave.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEnregistrerPave.setBackground(SystemColor.scrollbar);
-		btnEnregistrerPave.setBounds(6, 320, 232, 23);
-		panel_2.add(btnEnregistrerPave);
+		GridBagConstraints gbc_btnEnregistrerPave = new GridBagConstraints();
+		gbc_btnEnregistrerPave.insets = new Insets(15, 5, 5, 5);
+		gbc_btnEnregistrerPave.gridx = 0;
+		gbc_btnEnregistrerPave.gridy = 13;
+		gbc_btnEnregistrerPave.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnEnregistrerPave.weightx = 1.0;
+		panel_2.add(btnEnregistrerPave, gbc_btnEnregistrerPave);
 		
 		
 
@@ -587,6 +685,10 @@ public class PaveInterface {
 	    		}
         	}
         	setCursor(new Cursor(cursorType));		
+        }
+        
+        public void mouseReleased(MouseEvent e) {
+        	saveToServer();
         }
 	}
 }
