@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import Controller.PaveCon;
 import Model.PaveM;
+import Model.SerializablePaveM;
 import javax.swing.JRadioButton;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.Font;
@@ -28,6 +29,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ItemEvent;
@@ -65,22 +69,21 @@ public class PavageInterface {
 	private void initialize() {
 		jframe = new JFrame();
 		jframe.setTitle("Pavage");
-		jframe.setResizable(false);
+		jframe.setResizable(true);
 		jframe.setBounds(85, 50, 1366, 768);
 		jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		jframe.setAlwaysOnTop(true);
 		jframe.getContentPane().setBackground(SystemColor.window);
-		jframe.getContentPane().setLayout(null);
+		jframe.getContentPane().setLayout(new java.awt.BorderLayout());
 		jframe.setVisible(true);
 		
 		Mypanel panel_1 = new Mypanel();
-		panel_1.setBounds(10, 10, 1120, 720);
-		jframe.getContentPane().add(panel_1);
+		jframe.getContentPane().add(panel_1, java.awt.BorderLayout.CENTER);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(1140, 10, 212, 720);
-		jframe.getContentPane().add(panel_2);
+		jframe.getContentPane().add(panel_2, java.awt.BorderLayout.EAST);
 		panel_2.setLayout(null);
+		panel_2.setPreferredSize(new java.awt.Dimension(212, 720));
 		
 		JRadioButton rdbtnAffichierPave = new JRadioButton("Affichier le pave");
 		rdbtnAffichierPave.addItemListener(new ItemListener() {
